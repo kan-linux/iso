@@ -1,0 +1,4 @@
+rootfs/opt/firefox/libxul.so filter=lfs diff=lfs merge=lfs -text
+rootfs/opt/firefox/browser/omni.ja filter=lfs diff=lfs merge=lfs -text
+rootfs/usr/lib/libgallium-26.2.3.so filter=lfs diff=lfs merge=lfs -text
+rootfs/usr/libexec/gcc/x86_64-kan-linux-gnu/16.2.0/cc1plus filter=lfs diff=lfs merge=lfs -text
