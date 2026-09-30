@@ -1,0 +1,3 @@
+*.iso
+iso/boot/
+iso/casper/
