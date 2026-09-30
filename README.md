@@ -56,6 +56,11 @@ This mode is extremely helpful for troubleshooting.
 
 <img width="1560" height="959" alt="Screenshot From 2026-09-30 21-06-28" src="https://github.com/user-attachments/assets/73211671-3bad-416d-8e04-b5e393586645" />
 
+<img width="1662" height="1022" alt="Screenshot From 2026-09-30 21-18-02" src="https://github.com/user-attachments/assets/e97cad3c-05a3-4c38-9b5b-ea5c70fa440d" />
+
+<img width="1422" height="994" alt="Screenshot From 2026-09-30 21-25-57" src="https://github.com/user-attachments/assets/d4fc9c7d-6f46-4941-9a6e-2c33a9915d36" />
+
+
 ## License
 
 This repository is released under the [MIT License](LICENSE).
