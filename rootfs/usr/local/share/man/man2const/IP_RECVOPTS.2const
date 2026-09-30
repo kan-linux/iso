@@ -1,0 +1,45 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_RECVOPTS 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_RECVOPTS
+\-
+receive all incoming IP options in control message
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_RECVOPTS,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Pass all incoming IP options to the user in a
+.BR IP_OPTIONS (2const)
+control message.
+.P
+The routing header and other options are already filled in
+for the local host.
+.P
+Not supported for
+.B SOCK_STREAM
+sockets.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 2.2.
+.\" Precisely: since Linux 2.1.15
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

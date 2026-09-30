@@ -1,0 +1,161 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.\" The following socket options are undocumented
+.\"	All of the following are from:
+.\"	    commit 333fad5364d6b457c8d837f7d05802d2aaf8a961
+.\"	    Author: YOSHIFUJI Hideaki <yoshfuji@linux-ipv6.org>
+.\"	    Support several new sockopt / ancillary data in Advanced API (RFC3542).
+.\"		IPV6_2292PKTINFO (2.6.14)
+.\"		    Formerly IPV6_PKTINFO
+.\"		IPV6_2292HOPOPTS (2.6.14)
+.\"		    Formerly IPV6_HOPOPTS, which is documented
+.\"		IPV6_2292DSTOPTS (2.6.14)
+.\"		    Formerly IPV6_DSTOPTS, which is documented
+.\"		IPV6_2292RTHDR (2.6.14)
+.\"		    Formerly IPV6_RTHDR, which is documented
+.\"		IPV6_2292PKTOPTIONS (2.6.14)
+.\"		    Formerly IPV6_PKTOPTIONS
+.\"		IPV6_2292HOPLIMIT (2.6.14)
+.\"		    Formerly IPV6_HOPLIMIT, which is documented
+.\"
+.\"		IPV6_RECVHOPLIMIT (2.6.14)
+.\"		IPV6_RECVHOPOPTS (2.6.14)
+.\"		IPV6_RTHDRDSTOPTS (2.6.14)
+.\"		IPV6_RECVRTHDR (2.6.14)
+.\"		IPV6_RECVDSTOPTS (2.6.14)
+.\"
+.\"	IPV6_RECVPATHMTU (Linux 2.6.35, flag value added in Linux 2.6.14)
+.\"	    commit 793b14731686595a741d9f47726ad8b9a235385a
+.\"	    Author: Brian Haley <brian.haley@hp.com>
+.\"	IPV6_PATHMTU (Linux 2.6.35, flag value added in Linux 2.6.14)
+.\"	    commit 793b14731686595a741d9f47726ad8b9a235385a
+.\"	    Author: Brian Haley <brian.haley@hp.com>
+.\"	IPV6_DONTFRAG (Linux 2.6.35, flag value added in Linux 2.6.14)
+.\"	    commit 793b14731686595a741d9f47726ad8b9a235385a
+.\"	    Author: Brian Haley <brian.haley@hp.com>
+.\"	    commit 4b340ae20d0e2366792abe70f46629e576adaf5e
+.\"	    Author: Brian Haley <brian.haley@hp.com>
+.\"
+.\"	IPV6_RECVTCLASS (Linux 2.6.14)
+.\"	    commit 41a1f8ea4fbfcdc4232f023732584aae2220de31
+.\"	    Author: YOSHIFUJI Hideaki <yoshfuji@linux-ipv6.org>
+.\"		Based on patch from David L Stevens <dlstevens@us.ibm.com>
+.\"
+.\"	IPV6_CHECKSUM (Linux 2.2)
+.\"	IPV6_NEXTHOP (Linux 2.2)
+.\"	IPV6_JOIN_ANYCAST (Linux 2.4.21 / Linux 2.6)
+.\"	IPV6_LEAVE_ANYCAST (Linux 2.4.21 / Linux 2.6)
+.\"	IPV6_FLOWLABEL_MGR (Linux 2.2.7 / Linux 2.4)
+.\"	IPV6_FLOWINFO_SEND (Linux 2.2.7 / Linux 2.4)
+.\"	IPV6_IPSEC_POLICY (Linux 2.6)
+.\"	IPV6_XFRM_POLICY (Linux 2.6)
+.\"	IPV6_TCLASS (Linux 2.6)
+.\"
+.\"	IPV6_ADDR_PREFERENCES (Linux 2.6.26)
+.\"	    commit 7cbca67c073263c179f605bdbbdc565ab29d801d
+.\"	    Author: YOSHIFUJI Hideaki <yoshfuji@linux-ipv6.org>
+.\"	IPV6_MINHOPCOUNT (Linux 2.6.35)
+.\"	    commit e802af9cabb011f09b9c19a82faef3dd315f27eb
+.\"	    Author: Stephen Hemminger <shemminger@vyatta.com>
+.\"	IPV6_ORIGDSTADDR (Linux 2.6.37)
+.\"	    Actually a CMSG rather than a sockopt?
+.\"	    In header file, we have IPV6_RECVORIGDSTADDR == IPV6_ORIGDSTADDR
+.\"	    commit 6c46862280c5f55eda7750391bc65cd7e08c7535
+.\"	    Author: Balazs Scheidler <bazsi@balabit.hu>
+.\"	IPV6_RECVORIGDSTADDR (Linux 2.6.37)
+.\"	    commit 6c46862280c5f55eda7750391bc65cd7e08c7535
+.\"	    Author: Balazs Scheidler <bazsi@balabit.hu>
+.\"	        Support for IPV6_RECVORIGDSTADDR sockopt for UDP sockets
+.\"		were contributed by Harry Mason.
+.\"	IPV6_TRANSPARENT (Linux 2.6.37)
+.\"	    commit 6c46862280c5f55eda7750391bc65cd7e08c7535
+.\"	    Author: Balazs Scheidler <bazsi@balabit.hu>
+.\"	IPV6_UNICAST_IF (Linux 3.4)
+.\"	    commit c4062dfc425e94290ac427a98d6b4721dd2bc91f
+.\"	    Author: Erich E. Hoover <ehoover@mines.edu>
+.\"
+.TH IPPROTO_IPV6 2const 2026-01-05 "Linux man-pages 6.18"
+.SH NAME
+IPPROTO_IPV6
+\-
+Linux IPv6 protocol socket options
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~int\~ opt ,
+.BI "               const\~void\~" val [ size ],\~size_t\~ size );
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~int\~ opt ,
+.BI "               void\~" val [ size ],\~size_t\~ size );
+.fi
+.SH DESCRIPTION
+IPv6 supports some protocol-specific socket options that can be set with
+.BR setsockopt (2)
+and read with
+.BR getsockopt (2).
+The socket option level for IPv6 is
+.BR IPPROTO_IPV6 .
+A boolean integer flag is zero when it is false, otherwise true.
+.P
+The following socket options are supported.
+.TP
+.BR IPV6_ADDRFORM (2const)
+.TQ
+.BR IPV6_ADD_MEMBERSHIP (2const)
+.TQ
+.BR IPV6_DROP_MEMBERSHIP (2const)
+.TQ
+.BR IPV6_MTU (2const)
+.TQ
+.BR IPV6_MTU_DISCOVER (2const)
+.TQ
+.BR IPV6_MULTICAST_HOPS (2const)
+.TQ
+.BR IPV6_MULTICAST_IF (2const)
+.TQ
+.BR IPV6_MULTICAST_LOOP (2const)
+.TQ
+.BR IPV6_RECVPKTINFO (2const)
+.TQ
+.BR IPV6_RTHDR (2const)
+.TQ
+.BR IPV6_AUTHHDR (2const)
+.TQ
+.BR IPV6_DSTOPTS (2const)
+.TQ
+.BR IPV6_HOPOPTS (2const)
+.TQ
+.BR IPV6_FLOWINFO (2const)
+.TQ
+.BR IPV6_HOPLIMIT (2const)
+.TQ
+.BR IPV6_RECVERR (2const)
+.TQ
+.BR IPV6_ROUTER_ALERT (2const)
+.TQ
+.BR IPV6_UNICAST_HOPS (2const)
+.TQ
+.BR IPV6_V6ONLY (2const)
+.SH ERRORS
+See
+.BR setsockopt (2).
+See
+.BR ipv6 (7).
+.TP
+.B ENOPROTOOPT
+.I opt
+is invalid.
+.SH HISTORY
+.TP
+.B IPPROTO_IPV6
+POSIX.1-2001.
+.SH SEE ALSO
+.BR setsockopt (2),
+.BR cmsg (3),
+.BR ipv6 (7)

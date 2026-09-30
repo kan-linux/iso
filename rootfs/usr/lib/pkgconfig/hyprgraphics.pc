@@ -1,0 +1,10 @@
+prefix=/usr
+includedir=/usr/include
+libdir=/usr/lib
+
+Name: hyprgraphics
+URL: https://github.com/hyprwm/hyprgraphics
+Description: Hyprland graphics utilities library used across the ecosystem 
+Version: 0.5.1
+Cflags: -I${includedir}
+Libs: -L${libdir} -lhyprgraphics

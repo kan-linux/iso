@@ -1,0 +1,44 @@
+" Kan-Linux global vim defaults
+if v:progname =~? "evim"
+  finish
+endif
+
+source $VIMRUNTIME/defaults.vim
+
+set ai
+set nu
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set nobackup
+set fileformat=unix
+set cindent
+set cinoptions=(0
+
+set undofile
+set undodir=~/.undodir
+autocmd BufEnter * call mkdir(expand(&undodir), "p", 0o700)
+
+set hlsearch
+
+augroup vimrcEx
+  au!
+  autocmd FileType text setlocal textwidth=80
+augroup END
+
+autocmd FileType make,automake setlocal noexpandtab shiftwidth=8 softtabstop=8
+
+augroup WhitespaceHighlight
+  au!
+  autocmd FileType make,automake :match ForbiddenWhitespace /\s\+$/
+  autocmd FileType * :match ForbiddenWhitespace /\s\+$\|\t/
+  autocmd InsertEnter * match ForbiddenWhitespace /\t\|\s\+\%#\@<!$/
+augroup END
+highlight ForbiddenWhitespace ctermbg=red guibg=red
+
+if has('syntax') && has('eval')
+  packadd! matchit
+endif
+
+set mouse=

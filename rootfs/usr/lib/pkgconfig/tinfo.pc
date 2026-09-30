@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: tinfo
+Description: Terminal info library (ncurses compatibility)
+Version: 6.6
+Requires: ncursesw
+Libs: -L${libdir} -ltinfow
+Cflags: -I${includedir}

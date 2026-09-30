@@ -1,0 +1,41 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IPV6_ADD_MEMBERSHIP 2const 2025-12-02 "Linux man-pages 6.18"
+.SH NAME
+IPV6_ADD_MEMBERSHIP,
+IPV6_DROP_MEMBERSHIP
+\-
+join or leave a multicast group
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_ADD_MEMBERSHIP,
+.BI "               const\~struct\~ipv6_mreq\~*" val ,\~sizeof(struct\~ipv6_mreq));
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_DROP_MEMBERSHIP,
+.BI "               const\~struct\~ipv6_mreq\~*" val ,\~sizeof(struct\~ipv6_mreq));
+.fi
+.SH DESCRIPTION
+Join or leave a multicast group.
+.P
+See
+.BR IP_ADD_MULTICAST (2const)
+and
+.BR IP_DROP_MULTICAST (2const).
+.SH ERRORS
+See
+.BR IPPROTO_IPV6 (2const).
+See
+.BR setsockopt (2).
+See
+.BR ipv6 (7).
+.SH SEE ALSO
+.BR IPPROTO_IPV6 (2const),
+.BR setsockopt (2),
+.BR ipv6 (7)

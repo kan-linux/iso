@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_no_destructor
+Description: Abseil no_destructor library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_config = 20260817, absl_nullability = 20260817
+Libs: -L${libdir}  
+Cflags: -I${includedir} -DNOMINMAX

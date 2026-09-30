@@ -1,0 +1,70 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_TOS 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_TOS
+\-
+type of service
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_TOS,
+.BI "               const\~int\~*" tos ,\~sizeof(int));
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_TOS,
+.BI "               int\~*" tos ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Set or receive the Type-Of-Service (TOS) field that is sent
+with every IP packet originating from this socket.
+It is used to prioritize packets on the network.
+.P
+There are some standard TOS flags defined:
+.TP
+.B IPTOS_LOWDELAY
+to minimize delays for interactive traffic,
+.TP
+.B IPTOS_THROUGHPUT
+to optimize throughput,
+.TP
+.B IPTOS_RELIABILITY
+to optimize for reliability,
+.TP
+.B IPTOS_MINCOST
+should be used for "filler data" where slow transmission doesn't matter.
+.P
+At most one of these TOS values can be specified.
+Other bits are invalid and shall be cleared.
+.P
+Linux sends
+.B IPTOS_LOWDELAY
+datagrams first by default,
+but the exact behavior depends on the configured queueing discipline.
+.\" FIXME elaborate on this
+.P
+Some high-priority levels may require superuser privileges (the
+.B CAP_NET_ADMIN
+capability).
+.\" The priority can also be set in a protocol-independent way by the
+.\" .RB ( SOL_SOCKET ", " SO_PRIORITY )
+.\" socket option (see
+.\" .BR socket (7)).
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 1.0.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

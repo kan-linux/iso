@@ -1,0 +1,10 @@
+prefix=/usr
+includedir=/usr/include
+libdir=/usr/lib
+
+Name: hyprlang
+URL: https://github.com/hyprwm/hyprlang
+Description: The official implementation library for the hypr config language.
+Version: 0.6.7
+Cflags: -I${includedir}
+Libs: -L${libdir} -lhyprlang

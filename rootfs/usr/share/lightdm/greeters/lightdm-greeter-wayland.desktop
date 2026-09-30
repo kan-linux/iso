@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=LightDM Wayland Greeter
+Comment=Wayland greeter for LightDM (runs inside Hyprland)
+Exec=/usr/bin/lightdm-greeter-wayland
+Type=Application

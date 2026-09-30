@@ -1,0 +1,46 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_MULTICAST_ALL 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_MULTICAST_ALL
+\-
+delivery policy of multicast messages
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_MULTICAST_ALL,
+.BI "               const\~int\~*" val ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+This option can be used to modify the delivery policy of multicast messages.
+.P
+If set to 1 (default),
+the socket will receive messages from all the groups that have been joined
+globally on the whole system.
+.P
+If set to 0,
+it will deliver messages only from
+the groups that have been explicitly joined
+(for example via
+.BR IP_ADD_MEMBERSHIP (2const))
+on this particular socket.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 2.6.31.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

@@ -1,0 +1,81 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IPV6_RTHDR 2const 2025-12-02 "Linux man-pages 6.18"
+.SH NAME
+IPV6_RTHDR,
+IPV6_AUTHHDR,
+IPV6_DSTOPTS,
+IPV6_HOPOPTS,
+IPV6_FLOWINFO,
+IPV6_HOPLIMIT
+\-
+set the delivery of control messages
+for incoming datagrams containing extension headers
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_RTHDR,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_AUTHHDR,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_DSTOPTS,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_HOPOPTS,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_FLOWINFO,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_HOPLIMIT,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Set delivery of control messages for incoming datagrams
+containing extension headers from the received packet.
+.TP
+.B IPV6_RTHDR
+delivers the routing header.
+.TP
+.B IPV6_AUTHHDR
+delivers the authentication header.
+.TP
+.B IPV6_DSTOPTS
+delivers the destination options.
+.TP
+.B IPV6_HOPOPTS
+delivers the hop options.
+.TP
+.B IPV6_FLOWINFO
+delivers an integer containing the flow ID.
+.TP
+.B IPV6_HOPLIMIT
+delivers an integer containing the hop count of the packet.
+.P
+The control messages have the same type as the socket option.
+.P
+All these header options can also be set for outgoing packets
+by putting the appropriate control message into the control buffer of
+.BR sendmsg (2).
+.P
+Allowed only for
+.B SOCK_DGRAM
+or
+.B SOCK_RAW
+sockets.
+.SH ERRORS
+See
+.BR IPPROTO_IPV6 (2const).
+See
+.BR setsockopt (2).
+See
+.BR ipv6 (7).
+.SH SEE ALSO
+.BR IPPROTO_IPV6 (2const),
+.BR setsockopt (2),
+.BR cmsg (3),
+.BR ipv6 (7)

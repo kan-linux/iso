@@ -1,0 +1,6 @@
+NAME="kan-linux"
+VERSION="0.2.6"
+ID=kan-linux
+VERSION_ID=0.2.6
+PRETTY_NAME="kan-linux 0.2.6 (qianyuan)"
+HOME_URL="https://github.com/kan-linux"

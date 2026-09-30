@@ -1,0 +1,13 @@
+[Unit]
+Description=Run /etc/init.d/rcS
+DefaultDependencies=no
+After=systemd-remount-fs.service
+Before=systemd-udev.service
+
+[Service]
+Type=oneshot
+ExecStart=/etc/init.d/rcS
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

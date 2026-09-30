@@ -1,0 +1,51 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IPPROTO_IP 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IPPROTO_IP
+\-
+include a user-supplied IP header
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_HDRINCL,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+If enabled,
+the user supplies an IP header in front of the user data.
+.P
+Valid only for
+.B SOCK_RAW
+sockets;
+see
+.BR raw (7)
+for more information.
+.P
+When this flag is enabled,
+the values set by
+.BR IP_OPTIONS (2const),
+.BR IP_TTL (2const),
+and
+.BR IP_TOS (2const)
+are ignored.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 2.0.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

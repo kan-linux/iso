@@ -1,0 +1,78 @@
+.\" Copyright 2003, Free Software Foundation, Inc.
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: GPL-1.0-or-later
+.\"
+.TH io_destroy 2 2026-04-11 "Linux man-pages 6.18"
+.SH NAME
+io_destroy \- destroy an asynchronous I/O context
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <linux/aio_abi.h>" "    /* Definition of " aio_context_t " */"
+.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
+.B #include <unistd.h>
+.P
+.BI "int syscall(SYS_io_destroy, aio_context_t " ctx_id );
+.fi
+.SH DESCRIPTION
+.IR Note :
+you probably want to use the
+.BR io_destroy (3)
+wrapper function provided by
+.IR libaio ;
+see VERSIONS.
+.P
+The
+.BR io_destroy ()
+system call
+will attempt to cancel all outstanding asynchronous I/O operations against
+.IR ctx_id ,
+will block on the completion of all operations
+that could not be canceled, and will destroy the
+.IR ctx_id .
+.SH RETURN VALUE
+On success,
+.BR io_destroy ()
+returns 0.
+On error,
+\-1 is returned,
+and
+.I errno
+is set to indicate the error.
+.SH ERRORS
+.TP
+.B EFAULT
+.I ctx_id
+was not a valid address.
+.TP
+.B EINVAL
+The AIO context specified by
+.I ctx_id
+is invalid.
+.TP
+.B ENOSYS
+.BR io_destroy ()
+is not implemented on this architecture.
+.SH VERSIONS
+.UR https://pagure.io/libaio
+.I libaio
+.UE
+provides a wrapper function with the same name,
+but different prototype and return value.
+You probably want to use that wrapper.
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.5.
+.SH SEE ALSO
+.BR io_cancel (2),
+.BR io_getevents (2),
+.BR io_setup (2),
+.BR io_submit (2),
+.BR io_destroy (3),
+.BR aio (7)
+.\" .SH AUTHOR
+.\" Kent Yoder.

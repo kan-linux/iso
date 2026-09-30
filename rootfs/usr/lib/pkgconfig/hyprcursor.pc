@@ -1,0 +1,10 @@
+prefix=/usr
+includedir=/usr/include
+libdir=/usr/lib
+
+Name: hyprcursor
+URL: https://github.com/hyprwm/hyprcursor
+Description: A library and toolkit for the Hyprland cursor format
+Version: 0.1.12
+Cflags: -I${includedir}
+Libs: -L${libdir} -lhyprcursor

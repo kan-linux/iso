@@ -1,0 +1,39 @@
+.\" Copyright 2020, Michael Kerrisk <mtk.manpages@gmail.com>
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH mode_t 3type 2026-02-08 "Linux man-pages 6.18"
+.SH NAME
+mode_t \- file attributes
+.SH LIBRARY
+Standard C library
+.RI ( libc )
+.SH SYNOPSIS
+.nf
+.B #include <sys/types.h>
+.P
+.BR typedef " /* ... */ " mode_t;
+.fi
+.SH DESCRIPTION
+Used for some file attributes (e.g., file mode).
+It is an integer type.
+.SH STANDARDS
+POSIX.1-2024.
+.SH HISTORY
+POSIX.1-1988.
+.SH NOTES
+The following headers also provide this type:
+.IR <fcntl.h> ,
+.IR <ndbm.h> ,
+.IR <spawn.h> ,
+.IR <sys/ipc.h> ,
+.IR <sys/mman.h> ,
+and
+.IR <sys/stat.h> .
+.SH SEE ALSO
+.BR chmod (2),
+.BR mkdir (2),
+.BR open (2),
+.BR umask (2),
+.BR stat (3type)

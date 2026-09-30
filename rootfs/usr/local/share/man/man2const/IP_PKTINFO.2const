@@ -1,0 +1,68 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_PKTINFO 2const 2025-12-01 "Linux man-pages 6.18"
+.SH NAME
+IP_PKTINFO
+\-
+information about the incoming packet
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_PKTINFO,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Pass an
+.B IP_PKTINFO
+ancillary message that contains a
+.BR in_pktinfo (2type)
+structure that supplies some information about the incoming packet.
+This works only for datagram oriented sockets.
+.P
+The argument is a flag that tells the socket whether the
+.B IP_PKTINFO
+message should be passed or not.
+.P
+The message itself can be sent/retrieved
+only as a control message with a packet using
+.BR recvmsg (2)
+or
+.BR sendmsg (2).
+.P
+Not supported for
+.B SOCK_STREAM
+sockets.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH VERSIONS
+Some BSD sockets implementations provide
+.B IP_RCVDSTADDR
+and
+.B IP_RECVIF
+socket options to get the destination address and the interface of
+received datagrams.
+Linux has the more general
+.B IP_PKTINFO
+for the same task.
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.2.
+.\" Precisely: since Linux 2.1.68
+.SH SEE ALSO
+.BR in_pktinfo (2const),
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

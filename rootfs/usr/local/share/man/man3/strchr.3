@@ -1,0 +1,99 @@
+'\" t
+.\" Copyright 1993, David Metcalfe <david@prism.demon.co.uk>
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH strchr 3 2026-02-25 "Linux man-pages 6.18"
+.SH NAME
+strchr, strrchr \- locate character in string
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.B #include <string.h>
+.P
+.BI "char *strchr(const char *" s ", int " c );
+.BI "char *strrchr(const char *" s ", int " c );
+.fi
+.SH DESCRIPTION
+.TP
+.BR strchr ()
+The
+.BR strchr ()
+function returns a pointer to the first occurrence
+of the character
+.I c
+in the string
+.IR s .
+.IP
+It is equivalent to both of the following expressions:
+.IP
+.in +4n
+.EX
+memchr(s, c, strlen(s) + 1)
+strpbrk(s, (char [2]){c, \[aq]\[rs]0\[aq]})
+.EE
+.in
+.TP
+.BR strrchr ()
+The
+.BR strrchr ()
+function returns a pointer to the last occurrence
+of the character
+.I c
+in the string
+.IR s .
+.IP
+It is equivalent to
+.IP
+.in +4n
+.EX
+memrchr(s, c, strlen(s) + 1)
+.EE
+.in
+.SH RETURN VALUE
+The
+.BR strchr ()
+and
+.BR strrchr ()
+functions return a pointer to
+the matched character or NULL if the character is not found.
+The terminating null byte is considered part of the string,
+so that if
+.I c
+is specified as \[aq]\[rs]0\[aq],
+these functions return a pointer to the terminator.
+.SH ATTRIBUTES
+For an explanation of the terms used in this section, see
+.BR attributes (7).
+.TS
+allbox;
+lbx lb lb
+l l l.
+Interface	Attribute	Value
+T{
+.na
+.nh
+.BR strchr (),
+.BR strrchr ()
+T}	Thread safety	MT-Safe
+.TE
+.SH STANDARDS
+C11, POSIX.1-2008.
+.SH HISTORY
+POSIX.1-2001, C89, SVr4, 4.3BSD.
+.SH SEE ALSO
+.BR memchr (3),
+.BR string (3),
+.BR strchrnul (3),
+.BR strlen (3),
+.BR strnul (3),
+.BR strpbrk (3),
+.BR strsep (3),
+.BR strspn (3),
+.BR strstr (3),
+.BR strtok (3),
+.BR wcschr (3),
+.BR wcsrchr (3)

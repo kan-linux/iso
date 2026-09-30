@@ -1,0 +1,62 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_TRANSPARENT 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_TRANSPARENT
+\-
+transparent proxying
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_TRANSPARENT,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Setting this boolean option enables transparent proxying on this socket.
+.P
+This socket option allows
+the calling application to bind to a nonlocal IP address and operate
+both as a client and a server with the foreign address as the local endpoint.
+.P
+This requires that routing be set up in a way that
+packets going to the foreign address are routed through the TProxy box
+(i.e., the system hosting the application that employs the
+.B IP_TRANSPARENT
+socket option).
+.P
+Enabling this socket option requires superuser privileges
+(the
+.B CAP_NET_ADMIN
+or
+.B CAP_NET_RAW
+capability).
+.P
+TProxy redirection with the iptables TPROXY target also requires that
+this option be set on the redirected socket.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.6.24.
+.\" commit f5715aea4564f233767ea1d944b2637a5fd7cd2e
+.\"     This patch introduces the IP_TRANSPARENT socket option: enabling that
+.\"     will make the IPv4 routing omit the non-local source address check on
+.\"     output.  Setting IP_TRANSPARENT requires NET_ADMIN capability.
+.\" http://lwn.net/Articles/252545/
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

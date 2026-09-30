@@ -1,0 +1,20 @@
+[Unit]
+Description=Hyprland Compositor
+After=systemd-user-sessions.service seatd.service
+Requires=seatd.service
+
+[Service]
+Type=simple
+Environment=XDG_RUNTIME_DIR=/tmp/xdg-runtime-0
+Environment=HOME=/root
+WorkingDirectory=/root
+ExecStartPre=/usr/bin/mkdir -p /tmp/xdg-runtime-0
+ExecStartPre=/usr/bin/chmod 700 /tmp/xdg-runtime-0
+ExecStart=/usr/bin/Hyprland --i-am-really-stupid
+StandardOutput=tty
+StandardInput=tty
+TTYPath=/dev/tty1
+Restart=on-failure
+
+[Install]
+WantedBy=graphical.target

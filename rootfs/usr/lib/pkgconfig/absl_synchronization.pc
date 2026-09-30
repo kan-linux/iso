@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_synchronization
+Description: Abseil synchronization library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_graphcycles_internal = 20260817, absl_kernel_timeout_internal = 20260817, absl_atomic_hook = 20260817, absl_base = 20260817, absl_base_internal = 20260817, absl_config = 20260817, absl_core_headers = 20260817, absl_dynamic_annotations = 20260817, absl_malloc_internal = 20260817, absl_meta = 20260817, absl_nullability = 20260817, absl_raw_logging_internal = 20260817, absl_stacktrace = 20260817, absl_symbolize = 20260817, absl_time = 20260817, absl_tracing_internal = 20260817
+Libs: -L${libdir}  -labsl_synchronization 
+Cflags: -I${includedir} -DNOMINMAX

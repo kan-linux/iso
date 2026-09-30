@@ -1,0 +1,10 @@
+prefix=/usr
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: libEI
+Description: Emulated Input client library
+Version: 1.6.0
+Libs: -L${libdir} -lei
+Libs.private: -lm
+Cflags: -I${includedir}/libei-1.0

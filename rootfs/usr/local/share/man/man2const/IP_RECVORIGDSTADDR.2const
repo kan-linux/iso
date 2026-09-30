@@ -1,0 +1,51 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_RECVORIGDSTADDR 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_RECVORIGDSTADDR
+\-
+receive IP_ORIGDSTADDR control message
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_RECVORIGDSTADDR,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+This boolean option enables the
+.B IP_ORIGDSTADDR
+ancillary message in
+.BR recvmsg (2),
+in which the kernel returns the original destination address
+of the datagram being received.
+.P
+The ancillary message contains a
+.BR sockaddr_in (2type)
+structure.
+.P
+Not supported for
+.B SOCK_STREAM
+sockets.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.6.29.
+.\" commit e8b2dfe9b4501ed0047459b2756ba26e5a940a69
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

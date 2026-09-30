@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_core_headers
+Description: Abseil core_headers library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_config = 20260817
+Libs: -L${libdir}  
+Cflags: -I${includedir} -DNOMINMAX

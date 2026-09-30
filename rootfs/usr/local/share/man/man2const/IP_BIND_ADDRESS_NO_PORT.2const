@@ -1,0 +1,42 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_BIND_ADDRESS_NO_PORT 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_BIND_ADDRESS_NO_PORT
+\-
+don't reserve an ephemeral port
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_BIND_ADDRESS_NO_PORT,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Inform the kernel to not reserve an ephemeral port when using
+.BR bind (2)
+with a port number of 0.
+The port will later be automatically chosen at
+.BR connect (2)
+time,
+in a way that allows sharing a source port as long as the 4-tuple is unique.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 4.2.
+.\" commit 90c337da1524863838658078ec34241f45d8394d
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

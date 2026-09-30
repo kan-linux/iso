@@ -1,0 +1,106 @@
+'\" t
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH stpcpy 3 2026-03-03 "Linux man-pages 6.18"
+.SH NAME
+stpcpy \- string return-offset-pointer copy
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.B #include <string.h>
+.P
+.BI "char *stpcpy(char *restrict " dst ", const char *restrict " src );
+.fi
+.P
+.RS -4
+Feature Test Macro Requirements for glibc (see
+.BR feature_test_macros (7)):
+.RE
+.P
+.BR stpcpy ():
+.nf
+    Since glibc 2.10:
+        _POSIX_C_SOURCE >= 200809L
+    Before glibc 2.10:
+        _GNU_SOURCE
+.fi
+.SH DESCRIPTION
+.BR stpcpy ()
+is similar to
+.BR strcpy (3),
+but returns a pointer to the terminating null byte in
+.IR dst .
+.P
+It is equivalent to both of the following expressions:
+.P
+.in +4n
+.EX
+memset(mempcpy(dst, src, strlen(src)), \[aq]\[rs]0\[aq], 1);
+strcpy(dst, src) + strlen(src)
+.EE
+.in
+.SH RETURN VALUE
+This function returns
+a pointer to the terminating null byte of the copied string.
+.SH ATTRIBUTES
+For an explanation of the terms used in this section, see
+.BR attributes (7).
+.TS
+allbox;
+lbx lb lb
+l l l.
+Interface	Attribute	Value
+T{
+.na
+.nh
+.BR stpcpy ()
+T}	Thread safety	MT-Safe
+.TE
+.SH STANDARDS
+POSIX.1-2008.
+.SH HISTORY
+POSIX.1-2008.
+.SH EXAMPLES
+.\" SRC BEGIN (stpcpy.c)
+.EX
+#include <err.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+\&
+int
+main(void)
+{
+    char    *p;
+    char    *buf1;
+    size_t  len, size;
+\&
+    size = strlen("Hello ") + strlen("world") + strlen("!") + 1;
+    buf1 = malloc(sizeof(*buf1) * size);
+    if (buf1 == NULL)
+        err(EXIT_FAILURE, "malloc()");
+\&
+    p = buf1;
+    p = stpcpy(p, "Hello ");
+    p = stpcpy(p, "world");
+    p = stpcpy(p, "!");
+    len = p \- buf1;
+\&
+    printf("[len = %zu]: ", len);
+    puts(buf1);  // "Hello world!"
+    free(buf1);
+\&
+    exit(EXIT_SUCCESS);
+}
+.EE
+.\" SRC END
+.SH SEE ALSO
+.BR strcpy (3),
+.BR strdup (3),
+.BR string (3),
+.BR wcpcpy (3),
+.BR string_copying (7)

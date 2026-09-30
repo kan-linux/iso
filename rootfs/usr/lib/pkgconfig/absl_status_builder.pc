@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_status_builder
+Description: Abseil status_builder library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_config = 20260817, absl_cord = 20260817, absl_core_headers = 20260817, absl_nullability = 20260817, absl_optional = 20260817, absl_source_location = 20260817, absl_span = 20260817, absl_status = 20260817, absl_strings = 20260817, absl_time = 20260817
+Libs: -L${libdir}  -labsl_status_builder 
+Cflags: -I${includedir} -DNOMINMAX

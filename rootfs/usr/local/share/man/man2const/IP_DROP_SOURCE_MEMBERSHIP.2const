@@ -1,0 +1,48 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_DROP_SOURCE_MEMBERSHIP 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_DROP_SOURCE_MEMBERSHIP
+\-
+leave a source-specific multicast group
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_DROP_SOURCE_MEMBERSHIP,
+.BI "               const\~struct\~ip_mreq_source\~*" val ,
+.B "               sizeof(struct\~ip_mreq_source));"
+.fi
+.SH DESCRIPTION
+Leave a source-specific group;
+that is,
+stop receiving data
+from a given multicast group
+that comes from a given source.
+.P
+If the application has subscribed to
+multiple sources within the same group,
+data from the remaining sources will still be delivered.
+To stop receiving data from all sources at once,
+use
+.BR IP_DROP_MEMBERSHIP (2const).
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 2.4.22, Linux 2.5.68.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR ip_mreq_source (2type),
+.BR setsockopt (2),
+.BR ip (7)

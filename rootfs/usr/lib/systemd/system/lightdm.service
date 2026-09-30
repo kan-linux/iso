@@ -1,0 +1,11 @@
+[Unit]
+Description=Light Display Manager
+After=systemd-user-sessions.service systemd-logind.service dbus.service
+Requires=dbus.service
+
+[Service]
+ExecStart=/usr/sbin/lightdm
+Restart=always
+
+[Install]
+WantedBy=graphical.target

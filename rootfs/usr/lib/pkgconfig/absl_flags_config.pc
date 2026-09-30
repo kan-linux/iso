@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_flags_config
+Description: Abseil flags_config library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_config = 20260817, absl_flags_path_util = 20260817, absl_flags_program_name = 20260817, absl_core_headers = 20260817, absl_no_destructor = 20260817, absl_strings = 20260817, absl_synchronization = 20260817
+Libs: -L${libdir}  -labsl_flags_config 
+Cflags: -I${includedir} -DNOMINMAX

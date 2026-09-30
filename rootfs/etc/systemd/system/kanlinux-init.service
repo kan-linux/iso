@@ -1,0 +1,12 @@
+[Unit]
+Description=kan-linux initialization
+After=local-fs.target
+Before=sshd.service lightdm.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/lib/kanlinux/kanlinux-init.sh
+
+[Install]
+WantedBy=multi-user.target

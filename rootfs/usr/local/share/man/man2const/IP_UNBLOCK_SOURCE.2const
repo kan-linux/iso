@@ -1,0 +1,40 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_UNBLOCK_SOURCE 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_UNBLOCK_SOURCE
+\-
+unblock multicast source
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_UNBLOCK_SOURCE,
+.BI "               const\~struct\~ip_mreq_source\~*" src ,
+.B "               sizeof(struct\~ip_mreq_source));"
+.fi
+.SH DESCRIPTION
+Unblock previously blocked multicast source.
+.P
+Fails with
+.B EADDRNOTAVAIL
+when given source is not being blocked.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 2.4.22, Linux 2.5.68.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

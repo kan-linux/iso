@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_base_cpu_detect
+Description: Abseil base_cpu_detect library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_base = 20260817, absl_config = 20260817
+Libs: -L${libdir}  -labsl_base_cpu_detect 
+Cflags: -I${includedir} -DNOMINMAX

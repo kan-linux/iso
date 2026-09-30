@@ -1,0 +1,11 @@
+# Aliases for symbols, used by symbol_request().
+alias symbol:nf_send_unreach nf_reject_ipv4
+alias symbol:nf_reject_skb_v4_tcp_reset nf_reject_ipv4
+alias symbol:nf_send_reset6 nf_reject_ipv6
+alias symbol:nf_reject_skb_v6_unreach nf_reject_ipv6
+alias symbol:nf_reject_skb_v6_tcp_reset nf_reject_ipv6
+alias symbol:xfrm4_tunnel_register tunnel4
+alias symbol:xfrm4_tunnel_deregister tunnel4
+alias symbol:nf_reject_skb_v4_unreach nf_reject_ipv4
+alias symbol:nf_send_reset nf_reject_ipv4
+alias symbol:nf_send_unreach6 nf_reject_ipv6

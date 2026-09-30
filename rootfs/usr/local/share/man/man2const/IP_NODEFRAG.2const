@@ -1,0 +1,42 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_NODEFRAG 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_NODEFRAG
+\-
+don't defragmentate outgoing packets
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_NODEFRAG,
+.BI "               const\~int\~*" val ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+If
+.I val
+is nonzero,
+the reassembly of outgoing packets is disabled in the netfilter layer.
+.P
+This option is valid only for
+.B SOCK_RAW
+sockets.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 2.6.36.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

@@ -1,0 +1,52 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_FREEBIND 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_FREEBIND
+\-
+bind to a nonlocal or nonexistent IP address
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_FREEBIND,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+If enabled,
+this boolean option allows binding to an IP address
+that is nonlocal or does not (yet) exist.
+.P
+This permits listening on a socket,
+without requiring
+the underlying network interface
+or the specified dynamic IP address
+to be up at the time
+that the application is trying to bind to it.
+.P
+This option is the per-socket equivalent of the
+.I /proc/sys/net/ipv4/ip_nonlocal_bind
+interface.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.4.
+.\" Precisely: since Linux 2.4.0-test10
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR proc_sys_net_ipv4 (5),
+.BR ip (7)

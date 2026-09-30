@@ -1,0 +1,10 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: iconv
+Description: iconv from glibc
+Version: 2.42
+Libs:
+Cflags:

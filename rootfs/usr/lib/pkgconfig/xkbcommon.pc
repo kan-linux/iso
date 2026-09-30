@@ -1,0 +1,14 @@
+prefix=/usr
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+xkb_root=/usr/share/X11/xkb
+xkb_extra_path=/etc/xkb
+xkb_unversioned_extensions_path=/usr/share/xkeyboard-config.d
+xkb_versioned_extensions_path=/usr/share/X11/xkb.d
+
+Name: xkbcommon
+Description: XKB API common to servers and clients
+Version: 1.13.2
+Libs: -L${libdir} -lxkbcommon
+Cflags: -I${includedir}

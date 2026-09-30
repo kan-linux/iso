@@ -1,0 +1,13 @@
+prefix=/usr
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+modules=1
+
+Name: libXML
+Description: libXML library version2.
+Version: 2.13.4
+Requires.private: zlib, liblzma
+Libs: -L${libdir} -lxml2
+Libs.private: -lm -pthread
+Cflags: -I${includedir}/libxml2

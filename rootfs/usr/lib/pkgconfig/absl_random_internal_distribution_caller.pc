@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_random_internal_distribution_caller
+Description: Abseil random_internal_distribution_caller library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_config = 20260817, absl_utility = 20260817, absl_fast_type_id = 20260817, absl_type_traits = 20260817, absl_random_mocking_access = 20260817
+Libs: -L${libdir}  
+Cflags: -I${includedir} -DNOMINMAX

@@ -1,0 +1,12 @@
+prefix=/usr
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+plugindir=${libdir}/libinput/plugins
+
+Name: Libinput
+Description: Input device library
+Version: 1.32.0
+Requires.private: libudev
+Libs: -L${libdir} -linput
+Cflags: -I${includedir}

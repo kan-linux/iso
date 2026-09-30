@@ -1,0 +1,45 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_RECVTOS 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_RECVTOS
+\-
+receive IP_TOS control message
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_RECVTOS,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+If enabled,
+the
+.BR IP_TOS (2const)
+ancillary message is passed with incoming packets.
+It contains a byte which specifies the Type of Service/Precedence
+field of the packet header.
+.P
+Not supported for
+.B SOCK_STREAM
+sockets.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 2.2.
+.\" Precisely: since Linux 2.1.68
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

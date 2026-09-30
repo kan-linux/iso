@@ -1,0 +1,11 @@
+[Unit]
+Description=Seat management daemon
+After=systemd-udevd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/seatd -g video
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,4 @@
+#!/bin/sh
+chown root:root /var/empty
+chmod 711 /var/empty
+cat /etc/issue 2>/dev/null

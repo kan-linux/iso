@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: termcap
+Description: Terminal capability library (ncurses compatibility)
+Version: 6.6
+Requires: tinfo
+Libs: -L${libdir} -ltinfow
+Cflags: -I${includedir}

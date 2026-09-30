@@ -1,0 +1,46 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH sockaddr_in 3type 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+sockaddr_in,
+in_addr, in_addr_t, in_port_t
+\-
+IPv4 socket address
+.SH LIBRARY
+Standard C library
+.RI ( libc )
+.SH SYNOPSIS
+.EX
+.B #include <netinet/in.h>
+.P
+.B struct sockaddr_in {
+.BR "    sa_family_t     sin_family;" "     /* " AF_INET " */"
+.BR "    in_port_t       sin_port;" "       /* Port number */"
+.BR "    struct in_addr  sin_addr;" "       /* IPv4 address */"
+.B };
+.P
+.B struct in_addr {
+.B "    in_addr_t s_addr;"
+.B };
+.P
+.B typedef uint32_t in_addr_t;
+.B typedef uint16_t in_port_t;
+.EE
+.SH DESCRIPTION
+.TP
+.I sockaddr_in
+Describes an IPv4 Internet domain socket address.
+.IP
+.I .sin_port
+and
+.I .sin_addr
+are stored in network byte order.
+.SH STANDARDS
+POSIX.1-2024.
+.SH HISTORY
+POSIX.1-2001.
+.SH SEE ALSO
+.BR sockaddr (3type),
+.BR sockaddr_in6 (3type)

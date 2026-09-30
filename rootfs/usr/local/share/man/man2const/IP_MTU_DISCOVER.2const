@@ -1,0 +1,127 @@
+'\" t
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_MTU_DISCOVER 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_MTU_DISCOVER
+\-
+path maximum transfer unit size discovery
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_MTU_DISCOVER,
+.BI "               const\~int\~*" val ,\~sizeof(int));
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_MTU_DISCOVER,
+.BI "               int\~*" val ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Set or receive the Path MTU Discovery setting for a socket.
+.P
+When enabled,
+Linux will perform Path MTU Discovery
+as defined in RFC\ 1191 on
+.B SOCK_STREAM
+sockets.
+.P
+For
+.RB non- SOCK_STREAM
+sockets,
+.B IP_PMTUDISC_DO
+forces the don't-fragment flag to be set on all outgoing packets.
+It is the user's responsibility to packetize the data
+in MTU-sized chunks and to do the retransmits if necessary.
+The kernel will reject (with
+.BR EMSGSIZE )
+datagrams that are bigger than the known path MTU.
+.B IP_PMTUDISC_WANT
+will fragment a datagram if needed according to the path MTU,
+or will set the don't-fragment flag otherwise.
+.P
+The system-wide default can be toggled between
+.B IP_PMTUDISC_WANT
+and
+.B IP_PMTUDISC_DONT
+by writing (respectively, zero and nonzero values) to the
+.I /proc/sys/net/ipv4/ip_no_pmtu_disc
+file.
+.TS
+tab(:);
+c l
+l l.
+Path MTU discovery value:Meaning
+IP_PMTUDISC_WANT:Use per-route settings.
+IP_PMTUDISC_DONT:Never do Path MTU Discovery.
+IP_PMTUDISC_DO:Always do Path MTU Discovery.
+IP_PMTUDISC_PROBE:Set DF but ignore Path MTU.
+.TE
+.P
+When PMTU discovery is enabled, the kernel automatically keeps track of
+the path MTU per destination host.
+When it is connected to a specific peer with
+.BR connect (2),
+the currently known path MTU can be retrieved conveniently using the
+.BR IP_MTU (2const)
+socket option (e.g., after an
+.B EMSGSIZE
+error occurred).
+The path MTU may change over time.
+For connectionless sockets with many destinations,
+the new MTU for a given destination can also be accessed using the
+error queue (see
+.BR IP_RECVERR (2const)).
+A new error will be queued for every incoming MTU update.
+.P
+While MTU discovery is in progress, initial packets from datagram sockets
+may be dropped.
+Applications using UDP should be aware of this and not
+take it into account for their packet retransmit strategy.
+.P
+To bootstrap the path MTU discovery process on unconnected sockets, it
+is possible to start with a big datagram size
+(headers up to 64 kilobytes long) and let it shrink by updates of the path MTU.
+.P
+To get an initial estimate of the
+path MTU, connect a datagram socket to the destination address using
+.BR connect (2)
+and retrieve the MTU by calling
+.BR getsockopt (2)
+with the
+.BR IP_MTU (2const)
+option.
+.P
+It is possible to implement RFC 4821 MTU probing with
+.B SOCK_DGRAM
+or
+.B SOCK_RAW
+sockets by setting a value of
+.BR IP_PMTUDISC_PROBE .
+This is also particularly useful for diagnostic tools such as
+.BR tracepath (8)
+that wish to deliberately send probe packets larger than
+the observed Path MTU.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.2.
+.\" Precisely: since Linux 2.1.124
+.TP
+.B IP_PMTUDISC_PROBE
+Linux 2.6.22.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

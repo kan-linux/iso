@@ -1,0 +1,10 @@
+prefix=/usr
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: Xau
+Description: X authorization file management library
+Version: 1.0.12
+Requires: xproto
+Libs: -L${libdir} -lXau
+Cflags: -I${includedir}

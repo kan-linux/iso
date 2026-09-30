@@ -1,0 +1,10 @@
+prefix=/usr
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: libEIS
+Description: Emulated Input server library
+Version: 1.6.0
+Libs: -L${libdir} -leis
+Libs.private: -lm
+Cflags: -I${includedir}/libei-1.0

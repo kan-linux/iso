@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Xfce Session
+Comment=Use this session to run Xfce as your desktop environment
+Exec=startxfce4
+Icon=
+Type=Application

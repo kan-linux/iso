@@ -1,0 +1,91 @@
+.\" Copyright 2014-2015, Michael Kerrisk <mtk.manpages@gmail.com>
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH PR_SET_THP_DISABLE 2const 2026-02-08 "Linux man-pages 6.18"
+.SH NAME
+PR_SET_THP_DISABLE
+\-
+set the state of the "THP disable" flags for the calling thread
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <linux/prctl.h>" "  /* Definition of " PR_* " constants */"
+.B #include <sys/prctl.h>
+.P
+.BI "int prctl(PR_SET_THP_DISABLE, long " thp_disable ", unsigned long " flags ,
+.B "          0L, 0L);"
+.fi
+.SH DESCRIPTION
+Set the state of the "THP disable" flags for the calling thread.
+If
+.I thp_disable
+has a nonzero value,
+the THP disable flag is set according to the value of
+.IR flags ,
+otherwise it is cleared.
+.P
+This
+.BR prctl (2)
+provides a method
+for disabling transparent huge pages
+for jobs where the code cannot be modified,
+and using a
+.BR malloc (3)
+hook with
+.BR madvise (2)
+is not an option (i.e., statically allocated data).
+The setting of the "THP disable" flags is inherited by a child created via
+.BR fork (2)
+and is preserved across
+.BR execve (2).
+.P
+The behavior depends on the value of
+.IR flags :
+.TP
+.B 0
+The
+.BR prctl (2)
+call will disable THPs completely for the process,
+irrespective of global THP controls or
+.BR MADV_COLLAPSE .
+.TP
+.B PR_THP_DISABLE_EXCEPT_ADVISED
+The
+.BR prctl (2)
+call will disable THPs for the process
+except when the usage of THPs is
+advised.
+Consequently, THPs will only be used when:
+.RS
+.IP \[bu] 3
+Global THP controls are set to "always" or "madvise" and
+.I \%madvise(...,\~MADV_HUGEPAGE)
+or
+.I \%madvise(...,\~MADV_COLLAPSE)
+is used.
+.IP \[bu]
+Global THP controls are set to "never" and
+.I \%madvise(...,\~MADV_COLLAPSE)
+is used.
+This is the same behavior
+as if THPs would not be disabled on
+a process level.
+.RE
+.SH RETURN VALUE
+On success,
+0 is returned.
+On error, \-1 is returned, and
+.I errno
+is set to indicate the error.
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 3.15.
+.\" commit a0715cc22601e8830ace98366c0c2bd8da52af52
+.SH SEE ALSO
+.BR prctl (2),
+.BR PR_GET_THP_DISABLE (2const)

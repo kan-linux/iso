@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_any_span
+Description: Abseil any_span library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_config = 20260817, absl_core_headers = 20260817, absl_hardening = 20260817, absl_nullability = 20260817, absl_raw_logging_internal = 20260817, absl_throw_delegate = 20260817, absl_type_traits = 20260817
+Libs: -L${libdir}  
+Cflags: -I${includedir} -DNOMINMAX

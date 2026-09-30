@@ -1,0 +1,57 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH gnu::warning 3attr 2025-11-11 "Linux man-pages 6.18"
+.SH NAME
+gnu::warning, gnu::error
+\-
+diagnose function calls not removed by optimizations
+.SH SYNOPSIS
+.nf
+.BI [[gnu::warning( msg )]]
+.BI [[gnu::error( msg )]]
+.fi
+.SH DESCRIPTION
+This attribute can be applied to a function.
+If the function call is not removed by optimizations,
+a diagnostic is emitted.
+The diagnostic contains the message
+.I msg
+and the location of the call in the source code.
+.P
+.B [[gnu::error()]]
+terminates the compilation
+after emitting the diagnostic.
+.SH VERSIONS
+.TP
+.BI __attribute__((warning( msg )))
+.TQ
+.BI __attribute__((error( msg )))
+.SH STANDARDS
+GNU.
+.SH HISTORY
+gcc 4.3,
+g++ 4.3,
+clang 14,
+clang++ 14.
+.SH CAVEATS
+This diagnostic is emitted by the compiler,
+so it doesn't take into account linker optimizations.
+.SH EXAMPLES
+.EX
+#include <stdlib.h>
+\&
+[[gnu::warning("foo")]] void dontcall(void);
+\&
+int
+main(void)
+{
+	dontcall();  // Warning.
+\&
+	if (0)
+		dontcall();  // No warning.
+\&
+	exit(EXIT_SUCCESS);
+}
+.EE

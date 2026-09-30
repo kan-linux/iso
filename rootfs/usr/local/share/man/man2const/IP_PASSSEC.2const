@@ -1,0 +1,69 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_PASSSEC 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_PASSSEC
+\-
+receive the security context of the peer socket
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_PASSSEC,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_PASSSEC,
+.BI "               int\~*" enabled ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+If labeled IPSEC or NetLabel is configured on the sending and receiving
+hosts, this option enables receiving of the security context of the peer
+socket in an ancillary message of type
+.B SCM_SECURITY
+retrieved using
+.BR recvmsg (2).
+.P
+This option is supported only for UDP sockets;
+for TCP or SCTP sockets,
+see
+.BR SO_PEERSEC (2const).
+.P
+The security context returned in the
+.B SCM_SECURITY
+ancillary message
+is of the same format as the one described in
+.BR SO_PEERSEC (2const).
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.6.17.
+.\" commit 2c7946a7bf45ae86736ab3b43d0085e43947945c
+.SH CAVEATS
+The reuse of the
+.B SCM_SECURITY
+message type for the
+.B IP_PASSSEC
+socket option was likely a mistake, since other IP control messages use
+their own numbering scheme in the IP namespace and often use the
+socket option value as the message type.
+There is no conflict currently since the IP option with the same value as
+.B SCM_SECURITY
+is
+.BR IP_HDRINCL (2const)
+and this is never used for a control message type.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

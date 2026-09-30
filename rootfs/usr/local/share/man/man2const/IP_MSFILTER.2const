@@ -1,0 +1,67 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_MSFILTER 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_MSFILTER
+\-
+multicast source filtering
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_MSFILTER,
+.BI "               const\~struct\~ip_msfilter\~*" val ,
+.B "               sizeof(struct\~ip_msfilter));"
+.fi
+.P
+.EX
+struct ip_msfilter {
+    struct in_addr  imsf_multiaddr;  // IP multicast group address
+    struct in_addr  imsf_interface;  // IP address of local interface
+    uint32_t        imsf_fmode;      // Filter\-mode
+\&
+    uint32_t        imsf_numsrc;     // Number of elements in .imsf_slist
+    struct in_addr  imsf_slist[1];   // Array of source addresses
+};
+.EE
+.SH DESCRIPTION
+This option provides access to the advanced full-state filtering API.
+.P
+There are two macros,
+.B MCAST_INCLUDE
+and
+.BR MCAST_EXCLUDE ,
+which can be used to specify the filtering mode.
+.P
+Additionally,
+the
+.BR IP_MSFILTER_SIZE (n)
+macro exists to determine how much memory is needed to store
+.I ip_msfilter
+structure with
+.I n
+sources in the source list.
+.P
+For the full description of multicast source filtering
+refer to RFC 3376.
+.SH ERRORS
+See
+.BR IPRROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.4.22, Linux 2.5.68.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

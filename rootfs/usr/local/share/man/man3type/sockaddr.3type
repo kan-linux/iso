@@ -1,0 +1,103 @@
+.\" Copyright 2020, Michael Kerrisk <mtk.manpages@gmail.com>
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH sockaddr 3type 2026-02-08 "Linux man-pages 6.18"
+.SH NAME
+sockaddr, sockaddr_storage, socklen_t
+\- socket address
+.SH LIBRARY
+Standard C library
+.RI ( libc )
+.SH SYNOPSIS
+.EX
+.B #include <sys/socket.h>
+.P
+.B struct sockaddr {
+.BR "    sa_family_t     sa_family;" "      /* Address family */"
+.BR "    char            sa_data[];" "      /* Socket address */"
+.B };
+.P
+.B struct sockaddr_storage {
+.BR "    sa_family_t     ss_family;" "      /* Address family */"
+.B };
+.P
+.BR typedef " /* ... */ " socklen_t;
+.BR typedef " /* ... */ " sa_family_t;
+.P
+.EE
+.SH DESCRIPTION
+.TP
+.I sockaddr
+Describes a socket address.
+.TP
+.I sockaddr_storage
+A structure at least as large as any other
+.IR sockaddr_ *
+address structures.
+It's aligned so that a pointer to it can be cast
+as a pointer to other
+.IR sockaddr_ *
+structures and used to access its fields.
+.TP
+.I socklen_t
+Describes the length of a socket address.
+This is an integer type of at least 32 bits.
+.TP
+.I sa_family_t
+Describes a socket's protocol family.
+This is an unsigned integer type.
+.SS Internet domain sockets
+See
+.BR sockaddr_in (3type)
+and
+.BR sockaddr_in6 (3type).
+.SS UNIX domain sockets
+See
+.BR sockaddr_un (3type).
+.SH STANDARDS
+POSIX.1-2024.
+.SH HISTORY
+POSIX.1-2001.
+.P
+.I socklen_t
+was invented by POSIX.
+See also
+.BR accept (2).
+.P
+These structures were invented before modern ISO C strict-aliasing rules.
+If aliasing rules are applied strictly,
+these structures would be extremely difficult to use
+without invoking undefined behavior.
+POSIX.1-2024 fixed this
+by requiring that implementations
+make sure that these structures
+can be safely used as they were designed.
+.SH NOTES
+.I socklen_t
+is also defined in
+.IR <netdb.h> .
+.P
+.I sa_family_t
+is also defined in
+.I <netinet/in.h>
+and
+.IR <sys/un.h> .
+.SH SEE ALSO
+.BR accept (2),
+.BR bind (2),
+.BR connect (2),
+.BR getpeername (2),
+.BR getsockname (2),
+.BR getsockopt (2),
+.BR sendto (2),
+.BR setsockopt (2),
+.BR socket (2),
+.BR socketpair (2),
+.BR getaddrinfo (3),
+.BR gethostbyaddr (3),
+.BR getnameinfo (3),
+.BR htonl (3),
+.BR ipv6 (7),
+.BR socket (7)

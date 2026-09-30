@@ -1,0 +1,40 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IPV6_MULTICAST_LOOP 2const 2026-01-05 "Linux man-pages 6.18"
+.SH NAME
+IPV6_MULTICAST_LOOP
+\-
+loop back sent multicast packets to local sockets
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_MULTICAST_LOOP,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_MULTICAST_LOOP,
+.BI "               int\~*" enabled ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Control whether the socket sees multicast packets that it has send itself.
+.SH ERRORS
+See
+.BR IPPROTO_IPV6 (2const).
+See
+.BR setsockopt (2).
+See
+.BR ipv6 (7).
+.SH HISTORY
+.TP
+.B IPV6_MULTICAST_LOOP
+POSIX.1-2001.
+.SH SEE ALSO
+.BR IP_MULTICAST_LOOP (2const),
+.BR IPPROTO_IPV6 (2const),
+.BR setsockopt (2),
+.BR ipv6 (7)

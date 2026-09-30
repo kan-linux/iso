@@ -1,0 +1,43 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IPV6_ADDRFORM 2const 2025-12-02 "Linux man-pages 6.18"
+.SH NAME
+IPV6_ADDRFORM
+\-
+turn an AF_INET6 socket into a socket of a different address family
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_ADDRFORM,
+.B "               &(const\~int){AF_INET},\~sizeof(int));"
+.fi
+.SH DESCRIPTION
+Turn an
+.B AF_INET6
+socket into a socket of a different address family.
+.P
+Only
+.B AF_INET
+is currently supported for that.
+.P
+It is allowed only for IPv6 sockets
+that are connected and bound to a v4-mapped-on-v6 address.
+.P
+This is useful to pass v4-mapped sockets as file descriptors to
+programs that don't know how to deal with the IPv6 API.
+.SH ERRORS
+See
+.BR setsockopt (2).
+See
+.BR ipv6 (7).
+.SH SEE ALSO
+.BR IPPROTO_IPV6 (2const),
+.BR setsockopt (2),
+.BR ipv6 (7)

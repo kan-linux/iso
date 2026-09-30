@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_random_internal_entropy_pool
+Description: Abseil random_internal_entropy_pool library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_base = 20260817, absl_config = 20260817, absl_core_headers = 20260817, absl_random_internal_platform = 20260817, absl_random_internal_randen = 20260817, absl_random_internal_seed_material = 20260817, absl_random_seed_gen_exception = 20260817, absl_span = 20260817, absl_synchronization = 20260817
+Libs: -L${libdir}  -labsl_random_internal_entropy_pool 
+Cflags: -I${includedir} -DNOMINMAX

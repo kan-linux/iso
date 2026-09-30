@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_log_internal_conditions
+Description: Abseil log_internal_conditions library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_base = 20260817, absl_config = 20260817, absl_core_headers = 20260817, absl_log_internal_voidify = 20260817
+Libs: -L${libdir}  -labsl_log_internal_conditions 
+Cflags: -I${includedir} -DNOMINMAX

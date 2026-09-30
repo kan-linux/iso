@@ -1,0 +1,30 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH sockaddr_un 3type 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+sockaddr_un
+\- UNIX domain socket address
+.SH LIBRARY
+Standard C library
+.RI ( libc )
+.SH SYNOPSIS
+.EX
+.B #include <sys/un.h>
+.P
+.B struct sockaddr_un {
+.BR "    sa_family_t  sun_family;" "  /* Address family */"
+.BR "    char         sun_path[];" "  /* Socket pathname */"
+.B };
+.EE
+.SH DESCRIPTION
+.TP
+.I sockaddr_un
+Describes a UNIX domain socket address.
+.SH STANDARDS
+POSIX.1-2024.
+.SH HISTORY
+POSIX.1-2001.
+.SH SEE ALSO
+.BR sockaddr (3)

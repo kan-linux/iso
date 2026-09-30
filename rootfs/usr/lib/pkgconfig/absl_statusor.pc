@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_statusor
+Description: Abseil statusor library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_base = 20260817, absl_config = 20260817, absl_core_headers = 20260817, absl_has_ostream_operator = 20260817, absl_nullability = 20260817, absl_raw_logging_internal = 20260817, absl_status = 20260817, absl_source_location = 20260817, absl_str_format = 20260817, absl_strings = 20260817, absl_type_traits = 20260817, absl_utility = 20260817, absl_variant = 20260817
+Libs: -L${libdir}  -labsl_statusor 
+Cflags: -I${includedir} -DNOMINMAX

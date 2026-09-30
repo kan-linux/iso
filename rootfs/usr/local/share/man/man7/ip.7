@@ -1,0 +1,461 @@
+.\" Copyright 1999, Andi Kleen <andi@firstfloor.org>
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-1-para
+.\"
+.TH ip 7 2026-02-08 "Linux man-pages 6.18"
+.SH NAME
+ip \- Linux IPv4 protocol implementation
+.SH SYNOPSIS
+.nf
+.B #include <sys/socket.h>
+.\" .B #include <net/netinet.h> -- does not exist anymore
+.\" .B #include <linux/errqueue.h> -- never include <linux/foo.h>
+.B #include <netinet/in.h>
+.BR "#include <netinet/ip.h>" "  /* superset of previous */"
+.P
+.IB tcp_socket " = socket(AF_INET, SOCK_STREAM, 0);"
+.IB udp_socket " = socket(AF_INET, SOCK_DGRAM, 0);"
+.IB raw_socket " = socket(AF_INET, SOCK_RAW, " protocol ");"
+.fi
+.SH DESCRIPTION
+Linux implements the Internet Protocol, version 4,
+described in RFC\ 791 and RFC\ 1122.
+.B ip
+contains a level 2 multicasting implementation conforming to RFC\ 1112.
+It also contains an IP router including a packet filter.
+.P
+The programming interface is BSD-sockets compatible.
+For more information on sockets, see
+.BR socket (7).
+.P
+An IP socket is created using
+.BR socket (2):
+.P
+.in +4n
+.EX
+socket(AF_INET, socket_type, protocol);
+.EE
+.in
+.P
+Valid socket types include
+.B SOCK_STREAM
+to open a stream socket,
+.B SOCK_DGRAM
+to open a datagram socket, and
+.B SOCK_RAW
+to open a
+.BR raw (7)
+socket to access the IP protocol directly.
+.P
+.I protocol
+is the IP protocol in the IP header to be received or sent.
+Valid values for
+.I protocol
+include:
+.IP \[bu] 3
+0 and
+.B IPPROTO_TCP
+for
+.BR tcp (7)
+stream sockets;
+.IP \[bu]
+0 and
+.B IPPROTO_UDP
+for
+.BR udp (7)
+datagram sockets;
+.IP \[bu]
+.B IPPROTO_SCTP
+for
+.BR sctp (7)
+stream sockets;
+and
+.IP \[bu]
+.B IPPROTO_UDPLITE
+for
+.BR udplite (7)
+datagram sockets.
+.P
+For
+.B SOCK_RAW
+you may specify a valid IANA IP protocol defined in
+RFC\ 1700 assigned numbers.
+.P
+When a process wants to receive new incoming packets or connections, it
+should bind a socket to a local interface address using
+.BR bind (2).
+In this case, only one IP socket may be bound to any given local
+(address, port) pair.
+When
+.B INADDR_ANY
+is specified in the bind call, the socket will be bound to
+.I all
+local interfaces.
+When
+.BR listen (2)
+is called on an unbound socket, the socket is automatically bound
+to a random free port with the local address set to
+.BR INADDR_ANY .
+When
+.BR connect (2)
+is called on an unbound socket, the socket is automatically bound
+to a random free port or to a usable shared port with the local address
+set to
+.BR INADDR_ANY .
+.P
+A TCP local socket address that has been bound is unavailable for
+some time after closing, unless the
+.B SO_REUSEADDR
+flag has been set.
+Care should be taken when using this flag as it makes TCP less reliable.
+.SS Address format
+An IP socket address is defined as a combination of an IP interface
+address and a 16-bit port number.
+The basic IP protocol does not supply port numbers, they
+are implemented by higher level protocols like
+.BR udp (7)
+and
+.BR tcp (7).
+On raw sockets
+.I .sin_port
+is set to the IP protocol.
+.P
+See
+.BR sockaddr_in (3type).
+.P
+.I .sin_family
+is always set to
+.BR AF_INET .
+This is required; in Linux 2.2 most networking functions return
+.B EINVAL
+when this setting is missing.
+.I .sin_port
+contains the port in network byte order.
+The port numbers below 1024 are called
+.I privileged ports
+(or sometimes:
+.IR "reserved ports" ).
+Only a privileged process
+(on Linux: a process that has the
+.B CAP_NET_BIND_SERVICE
+capability in the user namespace governing its network namespace) may
+.BR bind (2)
+to these sockets.
+Note that the raw IPv4 protocol as such has no concept of a
+port, they are implemented only by higher protocols like
+.BR tcp (7)
+and
+.BR udp (7).
+.P
+.I .sin_addr
+is the IP host address.
+The
+.I .s_addr
+member of the
+.BR in_addr (3type)
+structure
+contains the host interface address in network byte order.
+.BR in_addr (3type)
+should be assigned one of the
+.B INADDR_*
+values
+(e.g.,
+.BR INADDR_LOOPBACK )
+using
+.BR htonl (3)
+or set using the
+.BR inet_aton (3),
+.BR inet_addr (3),
+.BR inet_makeaddr (3)
+library functions or directly with the name resolver (see
+.BR gethostbyname (3)).
+.P
+IPv4 addresses are divided into unicast, broadcast,
+and multicast addresses.
+Unicast addresses specify a single interface of a host,
+broadcast addresses specify all hosts on a network, and multicast
+addresses address all hosts in a multicast group.
+Datagrams to broadcast addresses can be sent or received only when the
+.B SO_BROADCAST
+socket flag is set.
+In the current implementation, connection-oriented sockets are allowed
+to use only unicast addresses.
+.\" Leave a loophole for XTP @)
+.P
+Note that the address and the port are always stored in
+network byte order.
+In particular, this means that you need to call
+.BR htons (3)
+on the number that is assigned to a port.
+All address/port manipulation
+functions in the standard library work in network byte order.
+.SS Special and reserved addresses
+There are several special addresses:
+.TP
+.BR INADDR_LOOPBACK " (127.0.0.1)"
+always refers to the local host via the loopback device;
+.TP
+.BR INADDR_ANY " (0.0.0.0)"
+means any address for socket binding;
+.TP
+.BR INADDR_BROADCAST " (255.255.255.255)"
+A packet addressed to
+.B INADDR_BROADCAST
+through a socket which has
+.B SO_BROADCAST
+set will be broadcast to all hosts on the local network segment,
+as long as the link is broadcast-capable.
+.TP
+Highest-numbered address
+.TQ
+Lowest-numbered address
+On any locally-attached non-point-to-point IP subnet
+with a link type that supports broadcasts,
+the highest-numbered address
+(e.g., the .255 address on a subnet with netmask 255.255.255.0)
+is designated as a broadcast address.
+It cannot usefully be assigned to an individual interface,
+and can only be addressed with a socket on which the
+.B SO_BROADCAST
+option has been set.
+Internet standards have historically
+also reserved the lowest-numbered address
+(e.g., the .0 address on a subnet with netmask 255.255.255.0)
+for broadcast, though they call it "obsolete" for this purpose.
+(Some sources also refer to this as the "network address.")
+Since Linux 5.14,
+.\" commit 58fee5fc83658aaacf60246aeab738946a9ba516
+it is treated as an ordinary unicast address
+and can be assigned to an interface.
+.P
+Internet standards have traditionally also reserved various addresses
+for particular uses, though Linux no longer treats
+some of these specially.
+.TP
+[0.0.0.1, 0.255.255.255]
+.TQ
+[240.0.0.0, 255.255.255.254]
+Addresses in these ranges (0/8 and 240/4) are reserved globally.
+Since Linux 5.3
+.\" commit 96125bf9985a75db00496dd2bc9249b777d2b19b
+and Linux 2.6.25,
+.\" commit 1e637c74b0f84eaca02b914c0b8c6f67276e9697
+respectively,
+the 0/8 and 240/4 addresses, other than
+.B INADDR_ANY
+and
+.BR INADDR_BROADCAST ,
+are treated as ordinary unicast addresses.
+Systems that follow the traditional behaviors may not
+interoperate with these historically reserved addresses.
+.TP
+[127.0.0.1, 127.255.255.254]
+Addresses in this range (127/8) are treated as loopback addresses
+akin to the standardized local loopback address
+.B INADDR_LOOPBACK
+(127.0.0.1);
+.TP
+[224.0.0.0, 239.255.255.255]
+Addresses in this range (224/4) are dedicated to multicast use.
+.SS Socket options
+See
+.BR IPPROTO_IP (2const).
+.SS /proc interfaces
+See
+.BR proc_sys_net_ipv4 (5).
+.SS Ioctls
+All ioctls described in
+.BR socket (7)
+apply to
+.BR ip .
+.P
+Ioctls to configure generic device parameters are described in
+.BR netdevice (7).
+.\" FIXME Add a discussion of multicasting
+.SH ERRORS
+.\" FIXME document all errors.
+.\"     We should really fix the kernels to give more uniform
+.\"     error returns (ENOMEM vs ENOBUFS, EPERM vs EACCES etc.)
+.TP
+.B EACCES
+The user tried to execute an operation without the necessary permissions.
+These include:
+sending a packet to a broadcast address without having the
+.B SO_BROADCAST
+flag set;
+sending a packet via a
+.I prohibit
+route;
+modifying firewall settings without superuser privileges (the
+.B CAP_NET_ADMIN
+capability);
+binding to a privileged port without superuser privileges (the
+.B CAP_NET_BIND_SERVICE
+capability).
+.TP
+.B EADDRINUSE
+Tried to bind to an address already in use.
+.TP
+.B EADDRNOTAVAIL
+A nonexistent interface was requested or the requested source
+address was not local.
+.TP
+.B EAGAIN
+Operation on a nonblocking socket would block.
+.TP
+.B EALREADY
+A connection operation on a nonblocking socket is already in progress.
+.TP
+.B ECONNABORTED
+A connection was closed during an
+.BR accept (2).
+.TP
+.B EHOSTUNREACH
+No valid routing table entry matches the destination address.
+This error can be caused by an ICMP message from a remote router or
+for the local routing table.
+.TP
+.B EINVAL
+Invalid argument passed.
+For send operations this can be caused by sending to a
+.I blackhole
+route.
+.TP
+.B EISCONN
+.BR connect (2)
+was called on an already connected socket.
+.TP
+.B EMSGSIZE
+Datagram is bigger than an MTU on the path and it cannot be fragmented.
+.TP
+.B ENOBUFS
+.TQ
+.B ENOMEM
+Not enough free memory.
+This often means that the memory allocation is limited by the socket
+buffer limits, not by the system memory, but this is not 100% consistent.
+.TP
+.B ENOENT
+.B SIOCGSTAMP
+was called on a socket where no packet arrived.
+.TP
+.B ENOPKG
+A kernel subsystem was not configured.
+.TP
+.B ENOPROTOOPT
+.TQ
+.B EOPNOTSUPP
+Invalid socket option passed.
+.TP
+.B ENOTCONN
+The operation is defined only on a connected socket, but the socket wasn't
+connected.
+.TP
+.B EPERM
+User doesn't have permission to set high priority, change configuration,
+or send signals to the requested process or group.
+.TP
+.B EPIPE
+The connection was unexpectedly closed or shut down by the other end.
+.TP
+.B ESOCKTNOSUPPORT
+The socket is not configured or an unknown socket type was requested.
+.P
+Other errors may be generated by the overlaying protocols;
+see
+.BR tcp (7),
+.BR raw (7),
+.BR udp (7),
+and
+.BR socket (7).
+.SH NOTES
+Be very careful with the
+.B SO_BROADCAST
+option \- it is not privileged in Linux.
+It is easy to overload the network
+with careless broadcasts.
+For new application protocols
+it is better to use a multicast group instead of broadcasting.
+Broadcasting is discouraged.
+See RFC 6762 for an example of a protocol (mDNS)
+using the more modern multicast approach
+to communicating with an open-ended
+group of hosts on the local network.
+.P
+Using the
+.B SOL_IP
+socket options level isn't portable;
+BSD-based stacks use the
+.B IPPROTO_IP
+level.
+.P
+.B INADDR_ANY
+(0.0.0.0) and
+.B INADDR_BROADCAST
+(255.255.255.255) are byte-order-neutral.
+This means
+.BR htonl (3)
+has no effect on them.
+.SS Compatibility
+For compatibility with Linux 2.0, the obsolete
+.BI "socket(AF_INET, SOCK_PACKET, " protocol )
+syntax is still supported to open a
+.BR packet (7)
+socket.
+This is deprecated and should be replaced by
+.BI "socket(AF_PACKET, SOCK_RAW, " protocol )
+instead.
+The main difference is the new
+.I sockaddr_ll
+address structure for generic link layer information instead of the old
+.BR sockaddr_pkt .
+.SH BUGS
+There are too many inconsistent error values.
+.P
+The error used to diagnose exhaustion of the ephemeral port range differs
+across the various system calls
+.RB ( connect (2),
+.BR bind (2),
+.BR listen (2),
+.BR sendto (2))
+that can assign ephemeral ports.
+.P
+The ioctls to configure IP-specific interface options and ARP tables are
+not described.
+.\" .P
+.\" Some versions of glibc forget to declare
+.\" .IR in_pktinfo .
+.\" Workaround currently is to copy it into your program from this man page.
+.P
+Receiving the original destination address with
+.B MSG_ERRQUEUE
+in
+.I msg_name
+by
+.BR recvmsg (2)
+does not work in some Linux 2.2 kernels.
+.\" .SH AUTHORS
+.\" This man page was written by Andi Kleen.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR recvmsg (2),
+.BR sendmsg (2),
+.BR byteorder (3),
+.BR capabilities (7),
+.BR icmp (7),
+.BR ipv6 (7),
+.BR netdevice (7),
+.BR netlink (7),
+.BR raw (7),
+.BR socket (7),
+.BR tcp (7),
+.BR udp (7),
+.BR ip (8)
+.P
+The kernel source file
+.IR Documentation/networking/ip\-sysctl.rst .
+.P
+RFC\ 791 for the original IP specification.
+RFC\ 1122 for the IPv4 host requirements.
+RFC\ 1812 for the IPv4 router requirements.

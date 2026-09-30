@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_status_macros
+Description: Abseil status_macros library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_core_headers = 20260817, absl_source_location = 20260817, absl_status = 20260817, absl_status_builder = 20260817, absl_statusor = 20260817
+Libs: -L${libdir}  
+Cflags: -I${includedir} -DNOMINMAX

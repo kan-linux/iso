@@ -1,0 +1,4 @@
+#!/bin/sh
+for arg; do
+    cmd="$(command -v "$arg" 2>/dev/null)" && echo "$cmd"
+done

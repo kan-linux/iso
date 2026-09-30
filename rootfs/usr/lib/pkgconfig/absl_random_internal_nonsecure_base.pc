@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_random_internal_nonsecure_base
+Description: Abseil random_internal_nonsecure_base library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_config = 20260817, absl_inlined_vector = 20260817, absl_random_internal_entropy_pool = 20260817, absl_random_internal_salted_seed_seq = 20260817, absl_random_internal_seed_material = 20260817, absl_type_traits = 20260817
+Libs: -L${libdir}  
+Cflags: -I${includedir} -DNOMINMAX

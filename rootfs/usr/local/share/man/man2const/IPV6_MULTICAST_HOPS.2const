@@ -1,0 +1,46 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IPV6_MULTICAST_HOPS 2const 2026-01-05 "Linux man-pages 6.18"
+.SH NAME
+IPV6_MULTICAST_HOPS
+\-
+multicast hop limit
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_MULTICAST_HOPS,
+.BI "               const\~int\~*" val ,\~sizeof(int));
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IPV6,\~IPV6_MULTICAST_HOPS,
+.BI "               int\~*" val ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Set the multicast hop limit for the socket.
+.P
+A value of
+.B \-1
+means use the route default;
+otherwise it should be in the range
+.RB [ 0 ,
+.BR 255 ].
+.SH ERRORS
+See
+.BR IPPROTO_IPV6 (2const).
+See
+.BR setsockopt (2).
+See
+.BR ipv6 (7).
+.SH HISTORY
+.TP
+.B IPV6_MULTICAST_HOPS
+POSIX.1-2001.
+.SH SEE ALSO
+.BR IPPROTO_IPV6 (2const),
+.BR setsockopt (2),
+.BR ipv6 (7)

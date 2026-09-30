@@ -1,0 +1,54 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_RECVTTL 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_RECVTTL
+\-
+enable IP_TTL control message
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~int\~ opt ,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+When this flag is set,
+pass a
+.BR IP_TTL (2const)
+control message
+with the time-to-live field
+of the received packet as a 32 bit integer.
+.P
+Not supported for
+.B SOCK_STREAM
+sockets.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH VERSIONS
+Some BSD sockets implementations also provide an
+.B IP_RECVTTL
+option, but an ancillary message with type
+.B IP_RECVTTL
+is passed with the incoming packet.
+This is different from the
+.BR IP_TTL (2const)
+option used in Linux.
+.SH HISTORY
+Linux 2.2.
+.\" Precisely: since Linux 2.1.68
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

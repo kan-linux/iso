@@ -1,0 +1,11 @@
+#!/bin/sh
+# Strip trailing "--" arguments added by LightDM for Wayland sessions.
+cmd=""
+for arg in "$@"; do
+    cmd="$cmd $arg"
+done
+# Strip trailing " --" repeatedly (LightDM appends "-- --")
+while case "$cmd" in *" --") true ;; *) false ;; esac; do
+    cmd="${cmd% --}"
+done
+exec $cmd

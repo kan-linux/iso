@@ -1,0 +1,123 @@
+.\" Copyright 2003, Free Software Foundation, Inc.
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: GPL-1.0-or-later
+.\"
+.TH io_getevents 2 2026-04-11 "Linux man-pages 6.18"
+.SH NAME
+io_getevents \- read asynchronous I/O events from the completion queue
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <linux/aio_abi.h>" "    /* Definition of " *io_* " types */"
+.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
+.B #include <unistd.h>
+.P
+.BI "int syscall(SYS_io_getevents, aio_context_t " ctx_id ,
+.BI "            long " min_nr ", long " nr ", struct io_event *" events ,
+.BI "            struct timespec *" timeout );
+.fi
+.SH DESCRIPTION
+.IR Note :
+you probably want to use the
+.BR io_getevents (3)
+wrapper function provided by
+.IR libaio ;
+see VERSIONS.
+.P
+The
+.BR io_getevents ()
+system call
+attempts to read at least
+.I min_nr
+events and
+up to
+.I nr
+events from the completion queue of the AIO context
+specified by
+.IR ctx_id .
+.P
+The
+.I timeout
+argument specifies the amount of time to wait for events,
+and is specified as a relative timeout in a
+.BR timespec (3)
+structure.
+.P
+The specified time will be rounded up to the system clock granularity
+and is guaranteed not to expire early.
+.P
+Specifying
+.I timeout
+as NULL means block indefinitely until at least
+.I min_nr
+events have been obtained.
+.SH RETURN VALUE
+On success,
+.BR io_getevents ()
+returns the number of events read.
+This may be 0, or a value less than
+.IR min_nr ,
+if the
+.I timeout
+expired.
+It may also be a nonzero value less than
+.IR min_nr ,
+if the call was interrupted by a signal handler.
+.P
+On error,
+\-1 is returned,
+and
+.I errno
+is set to indicate the error.
+.SH ERRORS
+.TP
+.B EFAULT
+Either
+.I events
+or
+.I timeout
+is an invalid pointer.
+.TP
+.B EINTR
+Interrupted by a signal handler;
+see
+.BR signal (7).
+.TP
+.B EINVAL
+.I ctx_id
+is invalid.
+.TP
+.B EINVAL
+.I min_nr
+is out of range or
+.I nr
+is out of range.
+.TP
+.B ENOSYS
+.BR io_getevents ()
+is not implemented on this architecture.
+.SH VERSIONS
+.UR https://pagure.io/libaio
+.I libaio
+.UE
+provides a wrapper function with the same name,
+but different prototype and return value.
+You probably want to use that wrapper.
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.5.
+.SH SEE ALSO
+.BR io_cancel (2),
+.BR io_destroy (2),
+.BR io_setup (2),
+.BR io_submit (2),
+.BR io_getevents (3),
+.BR timespec (3),
+.BR aio (7),
+.BR time (7)
+.\" .SH AUTHOR
+.\" Kent Yoder.

@@ -1,0 +1,38 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_MULTICAST_LOOP 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_MULTICAST_LOOP
+\-
+loop back sent multicast packets to local sockets
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_MULTICAST_LOOP,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_MULTICAST_LOOP,
+.BI "               int\~*" enabled ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Set or read a boolean integer argument that determines whether
+sent multicast packets should be looped back to the local sockets.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH HISTORY
+Linux 1.2.
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

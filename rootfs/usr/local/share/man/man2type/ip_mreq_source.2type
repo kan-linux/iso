@@ -1,0 +1,50 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH ip_mreq_source 2type 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+ip_mreq_source
+\-
+IP multicast request source
+.SH LIBRARY
+Standard C library
+.RI ( libc )
+.SH SYNOPSIS
+.nf
+.B #include <netinet/in.h>
+.fi
+.P
+.EX
+struct ip_mreq_source {
+    struct in_addr  imr_multiaddr;   /* IP multicast group address */
+    struct in_addr  imr_interface;   /* IP address of local interface */
+    struct in_addr  imr_sourceaddr;  /* IP address of multicast source */
+};
+.EE
+.SH DESCRIPTION
+The
+.I ip_mreq_source
+structure is similar to the
+.BR ip_mreqn (2type)
+structure.
+.TP
+.I .imr_multiaddr
+The address of the multicast group
+the application wants to join or leave.
+.TP
+.I .imr_interface
+The address of the local interface with which
+the system should join or leave the multicast group.
+.TP
+.I .imr_sourceaddr
+The address of the source
+the application wants to receive data from.
+.SH HISTORY
+Linux 2.4.22, Linux 2.5.68.
+.SH SEE ALSO
+.BR IP_ADD_SOURCE_MEMBERSHIP (2const),
+.BR IP_BLOCK_SOURCE (2const),
+.BR IP_DROP_SOURCE_MEMBERSHIP (2const),
+.BR IP_UNBLOCK_SOURCE (2const),
+.BR ip (7).

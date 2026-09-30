@@ -1,0 +1,43 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_MTU 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_MTU
+\-
+path maximum transmission unit size
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_MTU,
+.BI "               int\~*" val ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+Retrieve the current known path MTU of the current socket.
+.P
+.B IP_MTU
+is valid only for
+.BR getsockopt (2),
+and can be employed only when the socket has been connected.
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR getsockopt (2).
+See
+.BR ip (7).
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.2.
+.\" Precisely: since Linux 2.1.124
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR getsockopt (2),
+.BR ip (7)

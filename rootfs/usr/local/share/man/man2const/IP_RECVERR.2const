@@ -1,0 +1,188 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IP_RECVERR 2const 2025-11-25 "Linux man-pages 6.18"
+.SH NAME
+IP_RECVERR
+\-
+extended reliable error message passing
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_RECVERR,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IP_RECVERR,
+.BI "               int\~*" enabled ,\~sizeof(int));
+.fi
+.P
+.EX
+struct sock_extended_err {
+    uint32_t  ee_errno;   /* error number */
+    uint8_t   ee_origin;  /* where the error originated */
+    uint8_t   ee_type;    /* type */
+    uint8_t   ee_code;    /* code */
+    uint8_t   ee_pad;
+    uint32_t  ee_info;    /* additional information */
+    uint32_t  ee_data;    /* other data */
+    /* More data may follow */
+};
+.EE
+.P
+.nf
+#define SO_EE_ORIGIN_NONE    0
+#define SO_EE_ORIGIN_LOCAL   1
+#define SO_EE_ORIGIN_ICMP    2
+#define SO_EE_ORIGIN_ICMP6   3
+.P
+.B struct\~sockaddr\~*SO_EE_OFFENDER(struct\~sock_extended_err\~*);
+.SH DESCRIPTION
+Enable extended reliable error message passing
+(default: disabled).
+.P
+When enabled on a datagram socket,
+all generated errors will be queued in a per-socket error queue.
+When the user receives an error from a socket operation,
+the errors can be received by calling
+.BR recvmsg (2)
+with the
+.B MSG_ERRQUEUE
+flag set.
+The
+.I sock_extended_err
+structure describing the error
+will be passed in an ancillary message
+with the type
+.B IP_RECVERR
+and the level
+.BR IPPROTO_IP .
+.\" or SOL_IP on Linux
+This is useful for reliable error handling on unconnected sockets.
+The received data portion of the error queue contains the error packet.
+.P
+The
+.B IP_RECVERR
+control message contains a
+.I sock_extended_err
+structure.
+.TP
+.I .ee_errno
+contains the
+.I errno
+number of the queued error.
+.TP
+.I .ee_origin
+is the origin code of where the error originated.
+.P
+The other fields are protocol-specific.
+.P
+The macro
+.BR SO_EE_OFFENDER ()
+returns a pointer to the address of the network object
+where the error originated from
+given a pointer to the ancillary message.
+If this address is not known,
+the
+.I .sa_family
+member of the
+.I sockaddr
+contains
+.B AF_UNSPEC
+and the other fields of the
+.I sockaddr
+are undefined.
+.P
+IP uses the
+.I sock_extended_err
+structure as follows:
+.IP \[bu] 3
+.I .ee_origin
+is set to
+.B SO_EE_ORIGIN_ICMP
+for errors received as an ICMP packet,
+or
+.B SO_EE_ORIGIN_LOCAL
+for locally generated errors.
+Unknown values should be ignored.
+.IP \[bu]
+.I .ee_type
+and
+.I .ee_code
+are set from the type and code fields of the ICMP header.
+.IP \[bu]
+.I .ee_info
+contains the discovered MTU for
+.B EMSGSIZE
+errors.
+.IP \[bu]
+The message also contains the
+.I sockaddr_in
+of the node caused that the error,
+which can be accessed with the
+.BR SO_EE_OFFENDER ()
+macro.
+.P
+The
+.I .sin_family
+field of the
+.BR SO_EE_OFFENDER ()
+address is
+.B AF_UNSPEC
+when the source was unknown.
+When the error originated from the network, all IP options
+.RB ( IP_OPTIONS (2const),
+.BR IP_TTL (2const),
+etc.) enabled on the socket and contained in the
+error packet are passed as control messages.
+The payload of the packet causing the error is returned as normal payload.
+.\" FIXME . Is it a good idea to document that? It is a dubious feature.
+.\" On
+.\" .B SOCK_STREAM
+.\" sockets,
+.\" .B IP_RECVERR
+.\" has slightly different semantics.  Instead of
+.\" saving the errors for the next timeout, it passes all incoming
+.\" errors immediately to the user.
+.\" This might be useful for very short-lived TCP connections which
+.\" need fast error handling.  Use this option with care:
+.\" it makes TCP unreliable
+.\" by not allowing it to recover properly from routing
+.\" shifts and other normal
+.\" conditions and breaks the protocol specification.
+.P
+TCP has no error queue;
+.B MSG_ERRQUEUE
+is not permitted on
+.B SOCK_STREAM
+sockets.
+.B IP_RECVERR
+is valid for TCP,
+but all errors are returned by socket function return or
+.B SO_ERROR
+only.
+.P
+For raw sockets,
+.B IP_RECVERR
+enables passing of all received ICMP errors to the
+application, otherwise errors are reported only on connected sockets
+.SH ERRORS
+See
+.BR IPPROTO_IP (2const).
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.2.
+.\" Precisely: since Linux 2.1.15
+.SH SEE ALSO
+.BR IPPROTO_IP (2const),
+.BR setsockopt (2),
+.BR ip (7)

@@ -1,0 +1,15 @@
+prefix=/usr
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+have_seatd=true
+have_logind=true
+have_builtin=false
+
+Name: libseat
+Description: Seat management library
+Version: 0.9.3
+Requires.private: libsystemd
+Libs: -L${libdir} -lseat
+Libs.private: -lrt
+Cflags: -I${includedir}

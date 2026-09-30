@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: absl_log_sink_registry
+Description: Abseil log_sink_registry library
+URL: https://abseil.io/
+Version: 20260817
+Requires: absl_config = 20260817, absl_log_sink = 20260817, absl_log_internal_log_sink_set = 20260817, absl_nullability = 20260817
+Libs: -L${libdir}  
+Cflags: -I${includedir} -DNOMINMAX

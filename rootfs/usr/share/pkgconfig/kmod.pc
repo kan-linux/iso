@@ -1,0 +1,10 @@
+prefix=/usr
+sysconfdir=/etc
+distconfdir=${prefix}/lib
+module_directory=/lib/modules
+module_compressions=
+module_signatures=legacy
+
+Name: kmod
+Description: Tools to deal with kernel modules
+Version: 34.2

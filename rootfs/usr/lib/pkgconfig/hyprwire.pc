@@ -1,0 +1,10 @@
+prefix=/usr
+includedir=/usr/include
+libdir=/usr/lib
+
+Name: hyprwire
+URL: https://github.com/hyprwm/hyprwire
+Description: A fast and consistent wire protocol for IPC 
+Version: 0.3.1
+Cflags: -I${includedir}
+Libs: -L${libdir} -lhyprwire

@@ -1,0 +1,135 @@
+'\" t
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH strcpy 3 2026-02-25 "Linux man-pages 6.18"
+.SH NAME
+strcpy, strcat \- copy or catenate a string
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.B #include <string.h>
+.P
+.BI "char *strcpy(char *restrict " dst ", const char *restrict " src );
+.BI "char *strcat(char *restrict " dst ", const char *restrict " src );
+.fi
+.SH DESCRIPTION
+.TP
+.BR strcpy ()
+This function copies the string pointed to by
+.IR src ,
+into a string
+at the buffer pointed to by
+.IR dst .
+The programmer is responsible for allocating a destination buffer large enough,
+that is,
+.IR "strlen(src) + 1" .
+.IP
+It is equivalent to
+.IP
+.in +4n
+.EX
+stpcpy(dst, src), dst
+.EE
+.in
+.TP
+.BR strcat ()
+This function catenates the string pointed to by
+.IR src ,
+after the string pointed to by
+.I dst
+(overwriting its terminating null byte).
+The programmer is responsible for allocating a destination buffer large enough,
+that is,
+.IR "strlen(dst) + strlen(src) + 1" .
+.IP
+It is equivalent to
+.IP
+.in +4n
+.EX
+stpcpy(strnul(dst), src), dst
+.EE
+.in
+.SH RETURN VALUE
+These functions return
+.IR dst .
+.SH ATTRIBUTES
+For an explanation of the terms used in this section, see
+.BR attributes (7).
+.TS
+allbox;
+lbx lb lb
+l l l.
+Interface	Attribute	Value
+T{
+.na
+.nh
+.BR strcpy (),
+.BR strcat ()
+T}	Thread safety	MT-Safe
+.TE
+.SH STANDARDS
+C11, POSIX.1-2008.
+.SH HISTORY
+POSIX.1-2001, C89, SVr4, 4.3BSD.
+.SH CAVEATS
+The strings
+.I src
+and
+.I dst
+may not overlap.
+.P
+If the destination buffer is not large enough,
+the behavior is undefined.
+See
+.B _FORTIFY_SOURCE
+in
+.BR feature_test_macros (7).
+.P
+.BR strcat ()
+can be very inefficient.
+Read about
+.UR https:\://www.joelonsoftware.com/\:2001/12/11/\:back\-to\-basics/
+Shlemiel the painter
+.UE .
+.SH EXAMPLES
+.\" SRC BEGIN (strcpy.c)
+.EX
+#include <err.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+\&
+int
+main(void)
+{
+    char    *buf1;
+    size_t  len, size;
+\&
+    size = strlen("Hello ") + strlen("world") + strlen("!") + 1;
+    buf1 = malloc(sizeof(*buf1) * size);
+    if (buf1 == NULL)
+        err(EXIT_FAILURE, "malloc()");
+\&
+    strcpy(buf1, "Hello ");
+    strcat(buf1, "world");
+    strcat(buf1, "!");
+    len = strlen(buf1);
+\&
+    printf("[len = %zu]: ", len);
+    puts(buf1);  // "Hello world!"
+    free(buf1);
+\&
+    exit(EXIT_SUCCESS);
+}
+.EE
+.\" SRC END
+.SH SEE ALSO
+.BR stpcpy (3),
+.BR strdup (3),
+.BR string (3),
+.BR wcscpy (3),
+.BR string_copying (7)

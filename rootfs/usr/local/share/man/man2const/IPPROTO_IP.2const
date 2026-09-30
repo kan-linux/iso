@@ -1,0 +1,143 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.\" FIXME The following socket options are yet to be documented
+.\"
+.\"	IP_XFRM_POLICY (2.5.48)
+.\"	    Needs CAP_NET_ADMIN
+.\"
+.\"	IP_IPSEC_POLICY (2.5.47)
+.\"	    Needs CAP_NET_ADMIN
+.\"
+.\"	IP_MINTTL (2.6.34)
+.\"	    commit d218d11133d888f9745802146a50255a4781d37a
+.\"	    Author: Stephen Hemminger <shemminger@vyatta.com>
+.\"
+.\"	MCAST_JOIN_GROUP (2.4.22 / 2.6)
+.\"
+.\"	MCAST_BLOCK_SOURCE (2.4.22 / 2.6)
+.\"
+.\"	MCAST_UNBLOCK_SOURCE (2.4.22 / 2.6)
+.\"
+.\"	MCAST_LEAVE_GROUP (2.4.22 / 2.6)
+.\"
+.\"	MCAST_JOIN_SOURCE_GROUP (2.4.22 / 2.6)
+.\"
+.\"	MCAST_LEAVE_SOURCE_GROUP (2.4.22 / 2.6)
+.\"
+.\"	MCAST_MSFILTER (2.4.22 / 2.6)
+.\"
+.\"	IP_UNICAST_IF (3.4)
+.\"	    commit 76e21053b5bf33a07c76f99d27a74238310e3c71
+.\"	    Author: Erich E. Hoover <ehoover@mines.edu>
+.\"
+.TH IPPROTO_IP 2const 2026-01-05 "Linux man-pages 6.18"
+.SH NAME
+IPPROTO_IP
+\-
+Linux IPv4 protocol socket options
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~int\~ opt ,
+.BI "               const\~void\~" val [ size ],\~size_t\~ size );
+.BI int\~getsockopt(int\~ sockfd ,\~IPPROTO_IP,\~int\~ opt ,
+.BI "               void\~" val [ size ],\~size_t\~ size );
+.fi
+.SH DESCRIPTION
+IP supports some protocol-specific socket options that can be set with
+.BR setsockopt (2)
+and read with
+.BR getsockopt (2).
+The socket option level for IP is
+.BR IPPROTO_IP .
+.\" or SOL_IP on Linux
+.P
+The following socket options are supported.
+.TP
+.BR IP_ADD_MEMBERSHIP (2const)
+.TQ
+.BR IP_ADD_SOURCE_MEMBERSHIP (2const)
+.TQ
+.BR IP_BIND_ADDRESS_NO_PORT (2const)
+.TQ
+.BR IP_BLOCK_SOURCE (2const)
+.TQ
+.BR IP_DROP_MEMBERSHIP (2const)
+.TQ
+.BR IP_DROP_SOURCE_MEMBERSHIP (2const)
+.TQ
+.BR IP_FREEBIND (2const)
+.TQ
+.BR IP_HDRINCL (2const)
+.TQ
+.BR IP_LOCAL_PORT_RANGE (2const)
+.TQ
+.BR IP_MSFILTER (2const)
+.TQ
+.BR IP_MTU (2const)
+.TQ
+.BR IP_MTU_DISCOVER (2const)
+.TQ
+.BR IP_MULTICAST_ALL (2const)
+.TQ
+.BR IP_MULTICAST_IF (2const)
+.TQ
+.BR IP_MULTICAST_LOOP (2const)
+.TQ
+.BR IP_MULTICAST_TTL (2const)
+.TQ
+.BR IP_NODEFRAG (2const)
+.TQ
+.BR IP_OPTIONS (2const)
+.TQ
+.BR IP_PASSSEC (2const)
+.TQ
+.BR IP_PKTINFO (2const)
+.TQ
+.BR IP_RECVERR (2const)
+.TQ
+.BR IP_RECVOPTS (2const)
+.TQ
+.BR IP_RECVORIGDSTADDR (2const)
+.TQ
+.BR IP_RECVTOS (2const)
+.TQ
+.BR IP_RECVTTL (2const)
+.TQ
+.BR IP_RETOPTS (2const)
+.TQ
+.BR IP_ROUTER_ALERT (2const)
+.TQ
+.BR IP_TOS (2const)
+.TQ
+.BR IP_TRANSPARENT (2const)
+.TQ
+.BR IP_TTL (2const)
+.TQ
+.BR IP_UNBLOCK_SOURCE (2const)
+.SH ERRORS
+See
+.BR setsockopt (2).
+See
+.BR ip (7).
+.TP
+.B ENOPROTOOPT
+.I opt
+is invalid.
+.\" .SH STANDARDS
+.\" IP_XFRM_POLICY is Linux-specific
+.\" IP_IPSEC_POLICY is a nonstandard extension, also present on some BSDs
+.SH HISTORY
+.TP
+.B IPPROTO_IP
+POSIX.1-2001.
+.SH SEE ALSO
+.BR setsockopt (2),
+.BR ip (7)

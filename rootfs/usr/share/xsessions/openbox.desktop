@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Openbox
+Comment=Log in using the Openbox window manager
+Exec=openbox-session
+Icon=
+Type=Application

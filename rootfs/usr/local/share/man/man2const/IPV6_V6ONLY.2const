@@ -1,0 +1,51 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH IPV6_V6ONLY 2const 2026-01-05 "Linux man-pages 6.18"
+.SH NAME
+IPV6_V6ONLY
+\-
+restrict to IPv6 only
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.BR "#include <netinet/in.h>" "  /* Definition of " IP* " constants */"
+.B #include <sys/socket.h>
+.P
+.BI int\~setsockopt(int\~ sockfd ,\~IPPROTO_IP,\~IPV6_V6ONLY,
+.BI "               const\~int\~*" enable ,\~sizeof(int));
+.fi
+.SH DESCRIPTION
+.\" See RFC 3493
+If this flag is set to true (nonzero),
+then the socket is restricted
+to sending and receiving IPv6 packets only.
+In this case,
+an IPv4 and an IPv6 application can bind
+to a single port at the same time.
+.P
+If this flag is set to false (zero),
+then the socket can be used to send and receive packets
+to and from an IPv6 address or an IPv4-mapped IPv6 address.
+.P
+The default value for this flag is defined by the contents of the file
+.IR /proc/sys/net/ipv6/bindv6only .
+The default value for that file is 0 (false).
+.\" FLOWLABEL_MGR, FLOWINFO_SEND
+.SH ERRORS
+See
+.BR IPPROTO_IPV6 (2const).
+See
+.BR setsockopt (2).
+See
+.BR ipv6 (7).
+.SH HISTORY
+POSIX.1-2001,
+Linux 2.4.21, Linux 2.6.
+.SH SEE ALSO
+.BR IPPROTO_IPV6 (2const),
+.BR setsockopt (2),
+.BR ipv6 (7)

@@ -1,0 +1,74 @@
+.\" Copyright, the authors of the Linux man-pages project
+.\"
+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+.\"
+.TH in_pktinfo 2type 2025-11-26 "Linux man-pages 6.18"
+.SH NAME
+in_pktinfo
+\-
+information about the incoming packet
+.SH LIBRARY
+Standard C library
+.RI ( libc ,\~ \-lc )
+.SH SYNOPSIS
+.nf
+.B #include <netinet/in.h>
+.fi
+.P
+.EX
+struct in_pktinfo {
+    unsigned int    ipi_ifindex;   /* Interface index */
+    struct in_addr  ipi_spec_dst;  /* Local address */
+    struct in_addr  ipi_addr;      /* Header Destination address */
+};
+.EE
+.SH DESCRIPTION
+.SS recvmsg(2)
+When returned by
+.BR recvmsg (2) ,
+.I .ipi_ifindex
+is the unique index of the interface the packet was received on.
+.P
+.I .ipi_spec_dst
+is the preferred source address for replies to the given packet.
+.P
+.I .ipi_addr
+is the destination address in the packet header.
+.P
+These addresses are usually the same,
+but can differ for broadcast or multicast packets.
+Depending on the configured routes,
+.I .ipi_spec_dst
+might belong to a different interface from the one that received the packet.
+.SS sendmsg(2)
+If
+.B IP_PKTINFO
+is passed to
+.BR sendmsg (2)
+and
+.\" This field is grossly misnamed
+.I .ipi_spec_dst
+is not zero,
+then it is used as the local source address,
+for the routing table lookup,
+and for setting up IP source route options.
+.P
+When
+.I .ipi_ifindex
+is not zero,
+the primary local address of the interface specified by the index
+overwrites
+.I .ipi_spec_dst
+for the routing table lookup.
+.P
+.I .ipi_addr
+is ignored.
+.SH STANDARDS
+Linux.
+.SH HISTORY
+Linux 2.2.
+.\" Precisely: since Linux 2.1.68
+.SH SEE ALSO
+.BR IP_PKTINFO (2const),
+.BR setsockopt (2),
+.BR ip (7)
