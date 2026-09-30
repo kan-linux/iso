@@ -100,6 +100,7 @@ ssh -p 2222 root@localhost
 - No greeter; this is a stage-1 proof-of-concept designed for QEMU only.
 - No full desktop environment. A full desktop environment will be added in stage-2.
 - Currently tested only under QEMU. Native boot on physical x86-64 PCs/laptops will be implemented in stage-2.
+- No AI-Agent. AI-Agent will be added in stage-2/stage-3.
 
 
 ## Screenshots
