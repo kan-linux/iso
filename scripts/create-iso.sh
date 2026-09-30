@@ -3,8 +3,7 @@
 set -euo pipefail
 
 PWD="$(pwd)"
-PROJECT_HOME_PATH=${PWD}
-PROJECT_ROOT_PATH=${PROJECT_HOME_PATH}
+PROJECT_ROOT_PATH=${PWD}
 ROOTFS_DIR=${PROJECT_ROOT_PATH}/rootfs
 ISO_DIR=${PROJECT_ROOT_PATH}/iso
 
@@ -41,21 +40,7 @@ copy_kernel_files() {
     log "Copying kernel..."
     cp "${ROOTFS_DIR}/boot/vmlinuz-${LINUX_VERSION}" "${ISO_DIR}/casper/vmlinuz"
 
-    # Create minimal initramfs (used to mount squashfs)
     create_initramfs
-
-    # Copy isolinux files (required for BIOS boot)
-    mkdir -p "${ISO_DIR}/isolinux"
-    if [ -f /usr/lib/ISOLINUX/isolinux.bin ]; then
-        cp /usr/lib/ISOLINUX/isolinux.bin "${ISO_DIR}/isolinux/"
-        cp /usr/lib/syslinux/modules/bios/ldlinux.c32 "${ISO_DIR}/isolinux/" 2>/dev/null || true
-        cp /usr/lib/syslinux/modules/bios/libutil.c32 "${ISO_DIR}/isolinux/" 2>/dev/null || true
-        cp /usr/lib/syslinux/modules/bios/libcom32.c32 "${ISO_DIR}/isolinux/" 2>/dev/null || true
-        cp /usr/lib/syslinux/modules/bios/vesamenu.c32 "${ISO_DIR}/isolinux/" 2>/dev/null || true
-    elif [ -f /usr/share/syslinux/isolinux.bin ]; then
-        cp /usr/share/syslinux/isolinux.bin "${ISO_DIR}/isolinux/"
-        cp /usr/share/syslinux/ldlinux.c32 "${ISO_DIR}/isolinux/" 2>/dev/null || true
-    fi
 }
 
 create_initramfs() {
@@ -244,7 +229,7 @@ create_squashfs() {
 }
 
 create_grub_config() {
-    log "Creating GRUB and isolinux configuration..."
+    log "Creating GRUB configuration..."
     local initrd_line=""
     if [ -f "${ISO_DIR}/casper/initrd" ]; then
         initrd_line="    initrd /casper/initrd"
@@ -258,21 +243,6 @@ menuentry "${KANLINUX_NAME} ${KANLINUX_VERSION} Live" {
 ${initrd_line}
 }
 GRUB_EOF
-
-    # isolinux configuration (BIOS boot)
-    cat > "${ISO_DIR}/isolinux/isolinux.cfg" << 'ISOLINUX_EOF'
-UI vesamenu.c32
-MENU TITLE kan-linux Boot Menu
-TIMEOUT 30
-
-DEFAULT live
-TIMEOUT 1
-
-LABEL live
-    MENU LABEL kan-linux Live
-    LINUX /casper/vmlinuz
-    APPEND initrd=/casper/initrd quiet splash root=/dev/ram0 net.ifnames=0 biosdevname=0
-ISOLINUX_EOF
 }
 
 create_iso() {
