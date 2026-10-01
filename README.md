@@ -113,6 +113,7 @@ ssh -p 2222 root@localhost
 
 <img width="1422" height="994" alt="Screenshot From 2026-09-30 21-25-57" src="https://github.com/user-attachments/assets/d4fc9c7d-6f46-4941-9a6e-2c33a9915d36" />
 
+<img width="1541" height="951" alt="Screenshot From 2026-10-01 09-08-21" src="https://github.com/user-attachments/assets/47a14bff-f832-45ea-89d1-d5ee39234711" />
 
 ## License
 
