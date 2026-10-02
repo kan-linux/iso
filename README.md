@@ -116,6 +116,9 @@ ssh -p 2222 root@localhost
 
 <img width="1541" height="951" alt="Screenshot From 2026-10-01 09-08-21" src="https://github.com/user-attachments/assets/47a14bff-f832-45ea-89d1-d5ee39234711" />
 
+<img width="1533" height="974" alt="Screenshot From 2026-10-02 13-24-29" src="https://github.com/user-attachments/assets/af6924aa-5f3c-489c-a48e-d707d7f3c617" />
+
+
 ## License
 
 This repository is released under the [MIT License](LICENSE).
