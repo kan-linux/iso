@@ -26,6 +26,7 @@ To clean build artifacts:
 make clean
 ```
 
+Pls download the prebuilt ISO from https://github.com/kan-linux/iso/releases/download/v0.2.6/kan-linux-0.2.6-x86_64.iso if your generated ISO can't works fine as expected.
 
 ## How to Use Live ISO
 
