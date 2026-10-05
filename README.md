@@ -1,6 +1,6 @@
 ## Overview
 
-Prebuilt LiveISO
+KanLinux LiveISO v0.2.6
 
 ## How to Use Live ISO
 
