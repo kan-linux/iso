@@ -3,7 +3,7 @@
 KanLinux LiveISO v0.2.6
 
 
-The new LiveISO will be released on main repo: https://github.com/kan-linux/kan since 2026-10-15
+The new LiveISO will be released on main repo: https://github.com/kan-linux/kan after 2026-10-05
 
 
 ## License
